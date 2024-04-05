@@ -6,15 +6,15 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Fuente
 
 public enum FactoriaFuenteDatos  {
 
-    MONGODB{
+    MEMORIA{
         public IFuenteDatos crear(){
-            return new FuenteDatosMongoDB();
+            return new FuenteDatosMemoria();
         }
     },
 
-    MEMORIA {
+    MONGODB {
         public IFuenteDatos crear(){
-            return new FuenteDatosMemoria();
+            return new FuenteDatosMongoDB();
         }
     };
 
