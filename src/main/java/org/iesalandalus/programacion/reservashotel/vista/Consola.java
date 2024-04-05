@@ -1,0 +1,289 @@
+package org.iesalandalus.programacion.reservashotel.vista;
+
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
+import org.iesalandalus.programacion.utilidades.Entrada;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.EnumSet;
+import java.util.Iterator;
+
+public class Consola {
+
+    private Consola(){
+
+    }
+
+    public static void mostrarMenu() { // Método estático para mostrar el menú de opciones
+
+        for (Opcion opcion : Opcion.values()) { //con values devuelvo un array que contiene las constantes del enumerado en el orden declarado
+
+            System.out.println(opcion); //Saca por consola las opciones del enumerado
+        }
+    }
+
+    public static Opcion elegirOpcion() {
+
+        int opcionElegida; //Variable para almacenar el número de la opción escogida
+
+        do{
+            System.out.print("Elige una opción: ");
+
+            opcionElegida = Entrada.entero();
+
+        }while(opcionElegida<0 || opcionElegida > Opcion.values().length); //Verifico que la opción escogida esté dentro del enumerado
+
+        return Opcion.values()[opcionElegida];
+
+    }
+
+    public static Huesped leerHuesped() { //Método para introducir los datos del huésped
+
+        String nombre;
+
+        do{ //Verifico que no sea nulo ni contenga solo espacios
+            System.out.print("Introduce el nombre del huésped: ");
+
+            nombre = Entrada.cadena();
+
+        }while(nombre == null || nombre.isBlank());
+
+        String dni;
+        String ER_DNI = "([0-9]{8})([A-Za-z])";
+
+        do {
+
+            System.out.print("Introduce el DNI del huésped: ");
+
+            dni = Entrada.cadena();
+
+        }while(dni == null || dni.isBlank() || !dni.matches(ER_DNI));
+
+        String correo;
+        String ER_CORREO = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+[.][a-zA-Z]{2,4}$";
+
+        do {
+
+            System.out.print("Introduce el correo del huésped: ");
+
+            correo = Entrada.cadena();
+
+        }while(correo == null || correo.isBlank() || !correo.matches(ER_CORREO));
+
+        String telefono;
+        String ER_TELEFONO = "[0-9]{9}";
+
+        do {
+            System.out.print("Introduce el teléfono del huésped: ");
+
+            telefono = Entrada.cadena();
+
+        }while(telefono==null || telefono.isBlank() || !telefono.matches(ER_TELEFONO));
+
+
+        System.out.print("Introduce la fecha de nacimiento del huésped: ");
+
+        LocalDate fechaNacimiento = Consola.leerFecha();
+
+        return new Huesped(nombre, dni, correo, telefono, fechaNacimiento);
+    }
+
+    //Método para leer al huésped por DNI
+
+    public static Huesped leerHuespedPorDni() {
+
+        System.out.print("Introduce el DNI del huésped: ");
+
+        String dni = Entrada.cadena();
+
+        return new Huesped("nombre", dni, "correo@gmail.com", "623456789", LocalDate.of(2000,4,4));
+    }
+
+    public static LocalDate leerFecha() { //Método para validar la fecha introducida
+
+        String fecha = null;
+
+        boolean fechaValida = false;
+
+        while (!fechaValida) {
+
+            System.out.println("Formato dd/MM/yyyy");
+
+            fecha = Entrada.cadena();
+
+
+
+            if (fecha.matches("[0-3][0-9]/[0-1][0-9]/[1-2][0-9]{3}"))
+                fechaValida = true;
+
+        }
+
+        DateTimeFormatter formato= DateTimeFormatter.ofPattern(Huesped.FORMATO_FECHA);
+
+        LocalDate fechaFormato=LocalDate.parse(fecha, formato);
+
+        return fechaFormato;
+    }
+
+    public static Habitacion leerHabitacion() {
+
+        System.out.print("Introduce el número de planta de la habitación: ");
+
+        int planta = Entrada.entero();
+
+        System.out.print("Introduce el número de puerta de la habitación: ");
+
+        int puerta = Entrada.entero();
+
+        System.out.print("Introduce el precio de la habitación: ");
+
+        double precio = Entrada.realDoble();
+
+        System.out.println("Introduce el tipo de habitacion: ");
+
+        TipoHabitacion tipoHabitacion = leerTipoHabitacion();
+
+        if (tipoHabitacion.equals(TipoHabitacion.SIMPLE)) {
+            return new Simple(planta, puerta, precio);
+        }else if(tipoHabitacion.equals(TipoHabitacion.DOBLE)){
+            System.out.println("¿Cuantas camas individuales desea? (Escoja entre 0 y 2)");
+            int camasIndividuales=Entrada.entero();
+            System.out.println("¿Cuantas camas dobles desea? (Escoja 0 o 1)");
+            int camasDobles=Entrada.entero();
+            return new Doble(planta, puerta, precio, camasIndividuales, camasDobles);
+        } else if (tipoHabitacion.equals(TipoHabitacion.TRIPLE)) {
+            System.out.println("¿Cuántos baños desea? Escoja entre 1 y 2");
+            int numBanos=Entrada.entero();
+            System.out.println("¿Cuántas camas individuales desea? Escoja entre 0 y 3");
+            int camasIndividuales=Entrada.entero();
+            System.out.println("¿Cuántas camas dobles desea? Escoja entre 0 y 1");
+            int camasDobles=Entrada.entero();
+            return new Triple(planta, puerta, precio, numBanos, camasIndividuales,camasDobles);
+        } else if (tipoHabitacion.equals(TipoHabitacion.SUITE)){
+            String jacuzzi;
+
+            do{
+                System.out.println("¿Desea Jacuzzi en la habitación? Introduzca si o no");
+                jacuzzi=Entrada.cadena();
+            }while(!jacuzzi.equalsIgnoreCase("si") && !jacuzzi.equalsIgnoreCase("no"));
+
+            boolean jacuzziSuite=false;
+            if(jacuzzi.equalsIgnoreCase("si")) {
+                jacuzziSuite=true;
+            }
+            return new Suite(planta,puerta,precio,2,jacuzziSuite);
+        }else{
+            return null;
+        }
+    }
+
+    public static Habitacion leerHabitacionPorIdentificador() {
+
+        System.out.print("Introduce la planta de la habitación: ");
+
+        int planta = Entrada.entero();
+
+        System.out.println("Introduce la puerta de la habitación: ");
+
+        int puerta = Entrada.entero();
+
+       try {
+
+           TipoHabitacion tipoHabitacion = leerTipoHabitacion();
+
+           if (tipoHabitacion.equals(TipoHabitacion.SIMPLE)) {
+               return new Simple(planta, puerta, 50);
+           }else if(tipoHabitacion.equals(TipoHabitacion.DOBLE)){
+               return new Doble(planta, puerta, 50, 2, 0);
+           } else if (tipoHabitacion.equals(TipoHabitacion.TRIPLE)) {
+               return new Triple(planta, puerta, 50, 2, 2,1);
+           } else if (tipoHabitacion.equals(TipoHabitacion.SUITE)){
+               return new Suite(planta,puerta,50,2,true);
+           }
+
+        } catch (IllegalArgumentException e) {
+
+            System.out.println(e.getMessage());
+
+        } return null;
+    }
+
+    public static TipoHabitacion leerTipoHabitacion() {
+
+        System.out.println("Tipos de habitación:");
+
+        Iterator<TipoHabitacion> iterador = EnumSet.allOf(TipoHabitacion.class).iterator();
+
+        while (iterador.hasNext()) {
+
+            System.out.println(iterador.next());
+        }
+
+        System.out.print("Elige un tipo de habitación: ");
+
+        int tipoElegido;
+
+        do {
+
+            tipoElegido = Entrada.entero();
+
+        } while (tipoElegido < 0 || tipoElegido >= TipoHabitacion.values().length);
+
+
+        return TipoHabitacion.values()[tipoElegido];
+    }
+
+    public static Regimen leerRegimen() {
+
+        System.out.println("Tipos de régimen:");
+
+        Iterator<Regimen> iterador = EnumSet.allOf(Regimen.class).iterator();
+
+        while (iterador.hasNext()) {
+
+            System.out.println(iterador.next());
+        }
+
+        System.out.print("Elige un tipo de régimen: ");
+
+        int regimenElegido = Entrada.entero();
+
+        return Regimen.values()[regimenElegido];
+    }
+
+    public static int leerNumeroPersonas() {
+
+        int numeroPersonas;
+
+        // Bucle do-while para garantizar un número de personas válido
+
+        do {
+            System.out.print("Introduce el número de personas: ");
+
+            numeroPersonas = Entrada.entero();
+
+        }while(numeroPersonas<=0);
+
+        return numeroPersonas;
+    }
+
+
+
+    public static LocalDateTime leerFechaHora(String mensaje) {
+
+
+        while (!mensaje.matches("[0-3][0-9]/[01][0-9]/[0-9]{4} [0-2][0-9]:[0-5][0-9]:[0-5][0-9]")){
+            System.out.print(mensaje + "No es un patrón válido. Inténtalo de nuevo. (dd/MM/yyyy hh:mm:ss");
+            mensaje = Entrada.cadena();
+        }
+
+        // Creo un formateador de fecha y hora con el formato de la constante
+
+        DateTimeFormatter formato = DateTimeFormatter.ofPattern(Reserva.FORMATO_FECHA_HORA_RESERVA);
+
+        return LocalDateTime.parse(mensaje, formato); // Convierto la cadena de fecha y hora a un objeto LocalDateTime utilizando el formateador
+    }
+
+
+}
