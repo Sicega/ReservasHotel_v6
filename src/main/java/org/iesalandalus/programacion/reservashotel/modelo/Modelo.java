@@ -4,18 +4,19 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.IFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
-import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Habitaciones;
-import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Huespedes;
-import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.Reservas;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Habitaciones;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Huespedes;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Reservas;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public class Modelo {
+public class Modelo implements IModelo {
 
 
     //Elimino la constante CAPACIDAD
@@ -23,6 +24,7 @@ public class Modelo {
     private IHuespedes huespedes;
     private IHabitaciones habitaciones;
     private IReservas reservas;
+    private IFuenteDatos fuenteDatos;
 
     //MÉTODOS CONSTRUCTOR, COMENZAR Y TERMINAR
 
