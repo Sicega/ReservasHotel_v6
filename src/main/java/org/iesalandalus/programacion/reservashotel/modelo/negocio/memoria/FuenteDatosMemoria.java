@@ -1,11 +1,14 @@
-package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
+package org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria;
 
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Habitaciones;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Huespedes;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Reservas;
 
-public class FuenteDatosMongoDB implements IFuenteDatos {
+public class FuenteDatosMemoria implements IFuenteDatos {
     @Override
     public IHuespedes crearHuespedes() {
         return new Huespedes();
