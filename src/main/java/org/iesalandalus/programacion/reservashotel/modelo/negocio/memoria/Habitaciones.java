@@ -146,4 +146,14 @@ public class Habitaciones implements IHabitaciones {
         // Elimino la habitación de la colección
         coleccionHabitaciones.remove(indice);
     }
+
+    @Override
+    public void comenzar() {
+
+    }
+
+    @Override
+    public void terminar() {
+
+    }
 }

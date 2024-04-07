@@ -5,7 +5,6 @@ import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoClients;
 import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
-import org.iesalandalus.programacion.reservashotel.modelo.*;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 
 import java.time.LocalDate;
@@ -98,7 +97,6 @@ public class MongoDB {
                     .build();
         }
 
-
         //Creamos la conexión con el serveridos según el setting anterior
         conexion = MongoClients.create(settings);
 
@@ -117,7 +115,6 @@ public class MongoDB {
         }
 
         System.out.println("Conexión a MongoDB realizada correctamente.");
-
     }
 
     public static void cerrarConexion() {
@@ -128,6 +125,9 @@ public class MongoDB {
         }
     }
     public static Document getDocumento(Huesped huesped){
+        if(huesped == null){
+            throw new NullPointerException("ERROR: El huesped no puede ser nulo.");
+        }
         Document miDocumento= new Document()
                 .append(DNI,huesped.getDni())
                 .append(NOMBRE, huesped.getNombre())
@@ -139,6 +139,9 @@ public class MongoDB {
     }
 
     public static Huesped getHuesped(Document documentoHuesped){
+        if(documentoHuesped == null){
+            throw new NullPointerException("ERROR: El documento no puede ser nulo.");
+        }
 
         Huesped miHuesped = new Huesped(documentoHuesped.getString(DNI),
                 documentoHuesped.getString(NOMBRE),
@@ -149,6 +152,9 @@ public class MongoDB {
         return miHuesped;
     }
      public static Document getDocumento(Habitacion habitacion){
+         if(habitacion == null){
+             throw new NullPointerException("ERROR: La habitación no puede ser nula.");
+         }
         Document miDocumento= new Document()
                 .append(PLANTA, habitacion.getPlanta())
                 .append(PUERTA, habitacion.getPuerta())
@@ -178,6 +184,9 @@ public class MongoDB {
         return miDocumento;
      }
      public static Habitacion getHabitacion(Document documentoHabitacion){
+         if(documentoHabitacion == null){
+             throw new NullPointerException("ERROR: El documento no puede ser nulo.");
+         }
         Habitacion miHabitacion=null;
 
          if (documentoHabitacion.get(TIPO).equals(TIPO_SIMPLE)){
@@ -207,6 +216,9 @@ public class MongoDB {
      }
 
      public static Reserva getReserva(Document documentoReserva){
+         if(documentoReserva == null){
+             throw new NullPointerException("ERROR: El documento no puede ser nulo.");
+         }
 
         Reserva miReserva= new Reserva(
                 getHuesped((Document) documentoReserva.get(HUESPED)),
@@ -223,6 +235,9 @@ public class MongoDB {
 
      }
      public static Document getDocumento(Reserva reserva){
+        if(reserva == null){
+            throw new NullPointerException("ERROR: La reserva no puede ser nula.");
+        }
         Document miDocumento= new Document().append(HUESPED,getDocumento(reserva.getHuesped()))
                 .append(HABITACION,getDocumento(reserva.getHabitacion()))
                 .append(FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva())

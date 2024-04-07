@@ -21,5 +21,7 @@ public interface IReservas {
     List<Reserva> getReservasFuturas(Habitacion habitacion);
     void realizarCheckIn(Reserva reserva, LocalDateTime fecha);
     void realizarCheckOut(Reserva reserva, LocalDateTime fecha);
+    void comenzar();
+    void terminar();
 
 }

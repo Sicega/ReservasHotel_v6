@@ -99,4 +99,14 @@ public class Huespedes implements IHuespedes {
         }
 
     }
+
+    @Override
+    public void comenzar() {
+
+    }
+
+    @Override
+    public void terminar() {
+
+    }
 }
