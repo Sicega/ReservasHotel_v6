@@ -1,7 +1,10 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.utilidades.MongoDB;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
@@ -10,7 +13,8 @@ import java.util.List;
 public class Huespedes implements IHuespedes {
 
     // ArrayList para almacenar los huéspedes
-    private final List<Huesped> coleccionHuespedes;
+    private List<Huesped> coleccionHuespedes;
+    private final String COLECCION="huespedes";
 
     // Constructor
     public Huespedes() {
@@ -103,10 +107,17 @@ public class Huespedes implements IHuespedes {
     @Override
     public void comenzar() {
 
+        FindIterable<Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find();
+
+        for(Document miDocumento : miIterador){
+            coleccionHuespedes.add(MongoDB.getHuesped(miDocumento));
+        }
     }
 
     @Override
     public void terminar() {
 
+        MongoDB.cerrarConexion();
+        coleccionHuespedes=null;
     }
 }

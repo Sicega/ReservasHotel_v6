@@ -1,7 +1,10 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.utilidades.MongoDB;
 
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
@@ -13,7 +16,8 @@ import java.util.List;
 public class Reservas implements IReservas {
 
     // ArrayList para almacenar las reservas
-    private final List<Reserva> coleccionReservas;
+    private List<Reserva> coleccionReservas;
+    private final String COLECCION="reservas";
 
     // Constructor sin parámetro de capacidad, porque ya no hace falta
     public Reservas() {
@@ -264,10 +268,18 @@ public class Reservas implements IReservas {
     @Override
     public void comenzar() {
 
+        FindIterable<Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find();
+
+        for(Document miDocumento : miIterador){
+            coleccionReservas.add(MongoDB.getReserva(miDocumento));
+        }
+
     }
 
     @Override
     public void terminar() {
 
+        MongoDB.cerrarConexion();
+        coleccionReservas=null;
     }
 }

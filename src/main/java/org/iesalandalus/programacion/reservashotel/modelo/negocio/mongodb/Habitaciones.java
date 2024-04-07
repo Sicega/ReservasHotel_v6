@@ -1,7 +1,10 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
+import com.mongodb.client.FindIterable;
+import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.utilidades.MongoDB;
 
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
@@ -11,6 +14,7 @@ import java.util.List;
 public class Habitaciones implements IHabitaciones {
 
     private List<Habitacion> coleccionHabitaciones;
+    private final String COLECCION="habitaciones";
 
     // MÉTODOS
 
@@ -20,30 +24,12 @@ public class Habitaciones implements IHabitaciones {
 
     // Método para obtener una copia profunda de las habitaciones
     public List<Habitacion> get() {
-        return copiaProfundaHabitaciones();
-    }
-
-    // Método privado para realizar una copia profunda de las habitaciones
-    private List<Habitacion> copiaProfundaHabitaciones() {
-        List<Habitacion> miHabitacion = new ArrayList<>();
-
-        // Utilizo un iterador para recorrer la lista de habitaciones
-        Iterator<Habitacion> iterator = coleccionHabitaciones.iterator();
-        while (iterator.hasNext()) {
-            Habitacion habitacion = iterator.next();
-            if (habitacion instanceof Simple) {
-                miHabitacion.add(new Simple((Simple) habitacion));
-            } else if (habitacion instanceof Doble) {
-                miHabitacion.add(new Doble((Doble) habitacion));
-            } else if (habitacion instanceof Triple) {
-                miHabitacion.add(new Triple((Triple) habitacion));
-            } else if (habitacion instanceof Suite) {
-                miHabitacion.add(new Suite((Suite) habitacion));
-            }
+        List <Habitacion> miHabitacion = new ArrayList<>();
+        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find();
+        for(Document miDocumento : miIterador){
+            miHabitacion.add(MongoDB.getHabitacion(miDocumento));
         }
-
-        // Devuelvo una nueva lista con las habitaciones copiadas
-        return new ArrayList<>(miHabitacion);
+        return miHabitacion;
     }
 
     // Método para obtener las habitaciones de un tipo específico
@@ -150,10 +136,16 @@ public class Habitaciones implements IHabitaciones {
     @Override
     public void comenzar() {
 
+        FindIterable<Document>miIterador = MongoDB.getBD().getCollection(COLECCION).find();
+
+        for(Document miDocumento : miIterador){
+            coleccionHabitaciones.add(MongoDB.getHabitacion(miDocumento));
+        }
     }
 
     @Override
     public void terminar() {
-
+        MongoDB.cerrarConexion();
+        coleccionHabitaciones=null;
     }
 }
