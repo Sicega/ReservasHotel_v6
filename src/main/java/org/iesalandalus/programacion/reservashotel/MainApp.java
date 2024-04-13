@@ -3,8 +3,6 @@ package org.iesalandalus.programacion.reservashotel;
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 import org.iesalandalus.programacion.reservashotel.modelo.FactoriaFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.Modelo;
-import org.iesalandalus.programacion.reservashotel.modelo.*;
-import org.iesalandalus.programacion.reservashotel.vista.Opcion;
 import org.iesalandalus.programacion.reservashotel.vista.Vista;
 
 public class MainApp {
