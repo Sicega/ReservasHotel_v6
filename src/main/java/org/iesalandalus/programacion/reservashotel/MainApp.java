@@ -13,10 +13,7 @@ public class MainApp {
 
         // Creo instancias de modelo, vista y controlador
 
-         Modelo modelo = new Modelo(FactoriaFuenteDatos.MONGODB.crear());
-         Modelo modelo = new Modelo(FactoriaFuenteDatos.MEMORIA.crear());
-
-        Modelo modelo = new Modelo();
+        Modelo modelo = procesarArgumentosFuenteDatos(args);
         Vista vista = new Vista();
         Controlador controlador = new Controlador(modelo, vista);
 
@@ -25,6 +22,19 @@ public class MainApp {
         controlador.comenzar();
         controlador.terminar();
         
+    }
+
+    public static Modelo procesarArgumentosFuenteDatos(String[] args){
+
+        Modelo modelo= null;
+
+        if(args[0].equalsIgnoreCase("-fdmemoria")){
+            modelo = new Modelo(FactoriaFuenteDatos.MEMORIA);
+        } else if (args[0].equalsIgnoreCase("-fdmongodb")) {
+            modelo = new Modelo(FactoriaFuenteDatos.MONGODB);
+        }
+
+        return modelo;
     }
 
 }
