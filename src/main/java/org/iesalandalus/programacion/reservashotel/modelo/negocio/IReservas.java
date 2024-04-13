@@ -18,6 +18,7 @@ public interface IReservas {
     void borrar(Reserva reserva) throws OperationNotSupportedException;
     List<Reserva> getReservas(Huesped huesped);
     List<Reserva> getReservas(TipoHabitacion tipoHabitacion);
+    List<Reserva>getReservas(Habitacion habitacion);
     List<Reserva> getReservasFuturas(Habitacion habitacion);
     void realizarCheckIn(Reserva reserva, LocalDateTime fecha);
     void realizarCheckOut(Reserva reserva, LocalDateTime fecha);

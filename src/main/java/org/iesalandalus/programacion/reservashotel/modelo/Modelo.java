@@ -8,6 +8,8 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.IFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.memoria.FuenteDatosMemoria;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.FuenteDatosMongoDB;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Habitaciones;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Huespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.Reservas;
@@ -28,21 +30,29 @@ public class Modelo implements IModelo {
 
     //MÉTODOS CONSTRUCTOR, COMENZAR Y TERMINAR
 
-    public Modelo(){ // Creo el constructor que inicializa las instancias de las clases de negocio
+    public Modelo(FactoriaFuenteDatos factoriaFuenteDatos){
 
-        huespedes = new Huespedes();
-        habitaciones = new Habitaciones();
-        reservas = new Reservas();
+        if(factoriaFuenteDatos==null){
+            throw new NullPointerException("ERROR: La factoria fuente datos no puede ser nula.");
+        }
+
+        setFuenteDatos(factoriaFuenteDatos.crear());
 
     }
 
     public void comenzar(){
 
-        //Dejo el método comenzar vacío
+        huespedes = fuenteDatos.crearHuespedes();
+        habitaciones = fuenteDatos.crearHabitaciones();
+        reservas = fuenteDatos.crearReservas();
 
     }
 
-    public void terminar(){ //Simplemente avisa por pantalla que el modelo ha terminado
+    public void terminar(){
+
+        huespedes.terminar();
+        habitaciones.terminar();
+        reservas.terminar();
 
         System.out.println("El modelo ha terminado.");
 
@@ -136,6 +146,10 @@ public class Modelo implements IModelo {
         return reservas.getReservas(tipoHabitacion);
     }
 
+    public List<Reserva> getReservas(Habitacion habitacion){
+        return reservas.getReservas(habitacion);
+    }
+
     public List<Reserva> getReservasFuturas(Habitacion habitacion) {
         return reservas.getReservasFuturas(habitacion);
     }
@@ -155,5 +169,11 @@ public class Modelo implements IModelo {
 
     }
 
+    private void setFuenteDatos(IFuenteDatos fuenteDatos){
+        if(fuenteDatos==null){
+            throw new NullPointerException("ERROR: La fuente de datos no puede ser nulo.");
+        }
 
+        this.fuenteDatos=fuenteDatos;
+    }
 }

@@ -13,8 +13,8 @@ public class MainApp {
 
         // Creo instancias de modelo, vista y controlador
 
-        /*Modelo modelo = new Modelo(FactoriaFuenteDatos.MONGODB.crear());
-         Modelo modelo = new Modelo(FactoriaFuenteDatos.MEMORIA.crear());*/
+         Modelo modelo = new Modelo(FactoriaFuenteDatos.MONGODB.crear());
+         Modelo modelo = new Modelo(FactoriaFuenteDatos.MEMORIA.crear());
 
         Modelo modelo = new Modelo();
         Vista vista = new Vista();

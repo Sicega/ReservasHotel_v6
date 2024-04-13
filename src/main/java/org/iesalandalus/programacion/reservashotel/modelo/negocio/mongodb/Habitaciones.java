@@ -1,6 +1,7 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
@@ -22,10 +23,9 @@ public class Habitaciones implements IHabitaciones {
         this.coleccionHabitaciones = new ArrayList<>();
     }
 
-    // Método para obtener una copia profunda de las habitaciones
     public List<Habitacion> get() {
         List <Habitacion> miHabitacion = new ArrayList<>();
-        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find();
+        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(Filters.eq(MongoDB.IDENTIFICADOR));
         for(Document miDocumento : miIterador){
             miHabitacion.add(MongoDB.getHabitacion(miDocumento));
         }
@@ -62,7 +62,8 @@ public class Habitaciones implements IHabitaciones {
 
     // Método para obtener el tamaño actual de la colección
     public int getTamano() {
-        return coleccionHabitaciones.size();
+
+        return (int) MongoDB.getBD().getCollection(COLECCION).countDocuments();
     }
 
     // Método para insertar una nueva habitación en la colección
@@ -75,16 +76,9 @@ public class Habitaciones implements IHabitaciones {
             throw new OperationNotSupportedException("ERROR: Ya existe una habitación con ese identificador.");
         }
 
-        // Utilizo instanceof según el tipo de habitacion para añadir a la colección
-        if (habitacion instanceof Simple) {
-            coleccionHabitaciones.add(new Simple((Simple) habitacion));
-        } else if (habitacion instanceof Doble) {
-            coleccionHabitaciones.add(new Doble((Doble) habitacion));
-        } else if (habitacion instanceof Triple) {
-            coleccionHabitaciones.add(new Triple((Triple) habitacion));
-        } else if (habitacion instanceof Suite) {
-            coleccionHabitaciones.add(new Suite((Suite) habitacion));
-        }
+        Document miDocumento = MongoDB.getDocumento(habitacion);
+        MongoDB.getBD().getCollection(COLECCION).insertOne(miDocumento);
+        coleccionHabitaciones.add(habitacion);
     }
 
     // Método privado para buscar el índice de una habitación en la colección
@@ -98,21 +92,10 @@ public class Habitaciones implements IHabitaciones {
             throw new NullPointerException("ERROR: No se puede buscar una habitación nula.");
         }
 
-        // Busco el índice de la habitación en la colección
-        int indice = buscarIndice(habitacion);
+        Document miDocumento=MongoDB.getBD().getCollection(COLECCION).find(Filters.eq(MongoDB.IDENTIFICADOR,habitacion.getIdentificador())).first();
+        Habitacion miHabitacion=MongoDB.getHabitacion(miDocumento);
 
-        // Devuelvo la habitación encontrada o null si no se encontró
-        if (indice != -1) {
-            if (coleccionHabitaciones.get(indice) instanceof Simple) {
-                return new Simple((Simple) coleccionHabitaciones.get(indice));
-            } else if (coleccionHabitaciones.get(indice) instanceof Doble) {
-                return new Doble((Doble) coleccionHabitaciones.get(indice));
-            } else if (coleccionHabitaciones.get(indice) instanceof Triple) {
-                return new Triple((Triple) coleccionHabitaciones.get(indice));
-            } else if (coleccionHabitaciones.get(indice) instanceof Suite) {
-                return new Suite((Suite) coleccionHabitaciones.get(indice));
-            }
-        } return null;
+        return miHabitacion;
     }
 
     // Método para borrar una habitación de la colección
@@ -121,16 +104,12 @@ public class Habitaciones implements IHabitaciones {
             throw new NullPointerException("ERROR: No se puede borrar una habitación nula.");
         }
 
-        // Busco el índice de la habitación en la colección
-        int indice = buscarIndice(habitacion);
-
-        // Compruebo si encuentra la habitación
-        if (indice == -1) {
-            throw new OperationNotSupportedException("ERROR: No existe ninguna habitación como la indicada.");
+        if(!coleccionHabitaciones.contains(habitacion)){
+            throw new OperationNotSupportedException("No existe esa habitación.");
         }
 
-        // Elimino la habitación de la colección
-        coleccionHabitaciones.remove(indice);
+        MongoDB.getBD().getCollection(COLECCION).deleteOne(Filters.eq(MongoDB.IDENTIFICADOR, habitacion.getIdentificador()));
+        coleccionHabitaciones.remove(habitacion);
     }
 
     @Override

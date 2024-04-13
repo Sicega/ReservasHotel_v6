@@ -1,12 +1,14 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.model.Filters;
 import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.utilidades.MongoDB;
 
 import javax.naming.OperationNotSupportedException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -21,31 +23,18 @@ public class Huespedes implements IHuespedes {
         this.coleccionHuespedes = new ArrayList<>();
     }
 
-    // Para devolver una copia profunda de los huéspedes
     public List<Huesped> get() {
-        return copiaProfundaHuespedes();
-    }
 
-    // Para realizar la copia profunda de los huéspedes
-    private List<Huesped> copiaProfundaHuespedes() {
-        List<Huesped> misHuesped = new ArrayList<>();
-
-        // Itera sobre los huéspedes y agrega copias profundas al nuevo ArrayList
-
-        Iterator<Huesped> huespedIt = coleccionHuespedes.iterator();
-
-        while (huespedIt.hasNext()){
-
-            misHuesped.add(new Huesped(huespedIt.next()));
-
+        List<Huesped> miHuesped = new ArrayList<>();
+        FindIterable<Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(new Document("dni",1));
+        for(Document miDocumento : miIterador){
+            miHuesped.add(MongoDB.getHuesped(miDocumento));
         }
-
-        return misHuesped;
+        return miHuesped;
     }
 
-    // Para obtener el tamaño de la lista
     public int getTamano() {
-        return coleccionHuespedes.size();
+        return (int) MongoDB.getBD().getCollection(COLECCION).countDocuments();
     }
 
     // Para insertar un nuevo huésped en la colección
@@ -59,8 +48,10 @@ public class Huespedes implements IHuespedes {
             throw new OperationNotSupportedException("ERROR: Ya existe un huésped con ese dni.");
         }
 
-        // Agrega el huésped al ArrayList
-        coleccionHuespedes.add(new Huesped(huesped));
+        Document miDocumento = MongoDB.getDocumento(huesped);
+        MongoDB.getBD().getCollection(COLECCION).insertOne(miDocumento);
+        coleccionHuespedes.add(huesped);
+
     }
 
     // Para buscar un huésped en la colección
@@ -69,16 +60,10 @@ public class Huespedes implements IHuespedes {
             throw new NullPointerException("ERROR: No se puede buscar un huésped nulo.");
         }
 
-        // Utilizo un iterador para buscar el huésped en el ArrayList
-        Iterator<Huesped> iterator = coleccionHuespedes.iterator();
-        while (iterator.hasNext()) {
-            Huesped actual = iterator.next();
-            if (actual.equals(huesped)) {
-                return new Huesped(actual);
-            }
-        }
+        Document miDocumento=MongoDB.getBD().getCollection(COLECCION).find(Filters.eq(MongoDB.DNI,huesped.getDni())).first();
+        Huesped miHuesped=MongoDB.getHuesped(miDocumento);
 
-        return null;
+        return miHuesped;
     }
 
     // Para eliminar un huésped de la colección
@@ -92,15 +77,8 @@ public class Huespedes implements IHuespedes {
             throw new OperationNotSupportedException("ERROR: No existe ningún huésped como el indicado.");
         }
 
-        // Utilizo un iterador para buscar y eliminar el huésped del ArrayList con remove
-        Iterator<Huesped> iterator = coleccionHuespedes.iterator();
-        while (iterator.hasNext()) {
-            Huesped actual = iterator.next();
-            if (actual.equals(huesped)) {
-                iterator.remove();
-                return;
-            }
-        }
+        MongoDB.getBD().getCollection(COLECCION).deleteOne(Filters.eq(MongoDB.DNI,huesped.getDni()));
+        coleccionHuespedes.remove(huesped);
 
     }
 

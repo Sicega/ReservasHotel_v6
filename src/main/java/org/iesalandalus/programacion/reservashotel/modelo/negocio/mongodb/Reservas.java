@@ -1,6 +1,8 @@
 package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
 import com.mongodb.client.FindIterable;
+import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
@@ -25,33 +27,18 @@ public class Reservas implements IReservas {
         this.coleccionReservas = new ArrayList<>();
     }
 
-    // Devuelvo una copia profunda de las reservas
     public List<Reserva> get() {
-
-        return copiaProfundaReservas();
-    }
-
-    // Realizo la copia profunda de las reservas
-    private List<Reserva> copiaProfundaReservas() {
-
-        List<Reserva> misReservas = new ArrayList<>();
-
-        Iterator<Reserva> reservaIt = coleccionReservas.iterator();
-
-        // Itero sobre las reservas y agrego copias profundas al nuevo ArrayList
-
-        while(reservaIt.hasNext()){
-
-            misReservas.add(new Reserva(reservaIt.next()));
-
+        List <Reserva> miReserva = new ArrayList<>();
+        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(new Document("fechaInicioReserva", 1));
+        for(Document miDocumento : miIterador){
+            miReserva.add(MongoDB.getReserva(miDocumento));
         }
-
-        return misReservas;
+        return miReserva;
     }
 
     public int getTamano() {
 
-        return coleccionReservas.size(); //Modifico el método getTamano para que tenga en cuenta el tamaño del Arraylist
+        return (int) MongoDB.getBD().getCollection(COLECCION).countDocuments();
     }
 
     // Para insertar una nueva reserva en el ArrayList
@@ -70,8 +57,11 @@ public class Reservas implements IReservas {
             throw new OperationNotSupportedException("ERROR: Ya existe una reserva igual.");
         }
 
-        // Agrego la reserva al ArrayList
+        Document miDocumento= MongoDB.getDocumento(reserva);
+
+        MongoDB.getBD().getCollection(COLECCION).insertOne(miDocumento);
         coleccionReservas.add(new Reserva(reserva));
+
     }
 
     // Para buscar una reserva en la colección
@@ -80,17 +70,15 @@ public class Reservas implements IReservas {
             throw new NullPointerException("ERROR: No se puede buscar una reserva nula.");
         }
 
-        // Utilizo un iterador para buscar la reserva en el ArrayList
+        Document miDocumento=MongoDB.getBD().getCollection(COLECCION).find(Filters.and(
 
-        Iterator<Reserva> iterator = coleccionReservas.iterator();
-        while (iterator.hasNext()) {
-            Reserva actual = iterator.next();
-            if (actual.equals(reserva)) {
-                return new Reserva(actual);
-            }
-        }
+                Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()),
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva())
+        )).first();
 
-        return null;
+        Reserva miReserva= MongoDB.getReserva(miDocumento);
+
+        return miReserva;
     }
 
     // Para eliminar una reserva de la colección
@@ -104,15 +92,14 @@ public class Reservas implements IReservas {
             throw new OperationNotSupportedException("ERROR: No existe ninguna reserva como la indicada.");
         }
 
-        // Utilizo un iterador para buscar y eliminar la reserva del ArrayList
-        Iterator<Reserva> iterator = coleccionReservas.iterator();
-        while (iterator.hasNext()) {
-            Reserva actual = iterator.next();
-            if (actual.equals(reserva)) {
-                iterator.remove();
-                return;
-            }
-        }
+        MongoDB.getBD().getCollection(COLECCION).deleteOne(Filters.and(
+
+                Filters.eq(MongoDB.HABITACION_IDENTIFICADOR, reserva.getHabitacion().getIdentificador()),
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva())
+        ));
+
+        coleccionReservas.remove(reserva);
+
     }
 
     // Para obtener las reservas de un huésped
@@ -232,6 +219,11 @@ public class Reservas implements IReservas {
             }
         }
 
+        MongoDB.getBD().getCollection(COLECCION).updateOne(Filters.and(
+                Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()),
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva())
+        ), Updates.set(MongoDB.CHECKIN,fecha.format(MongoDB.FORMATO_DIA_HORA)));
+
     }
 
     // Para realizar el checkout de una reserva
@@ -262,6 +254,11 @@ public class Reservas implements IReservas {
                 return;
             }
         }
+
+        MongoDB.getBD().getCollection(COLECCION).updateOne(Filters.and(
+                Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()),
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva())
+        ), Updates.set(MongoDB.CHECKOUT,fecha.format(MongoDB.FORMATO_DIA_HORA)));
 
     }
 
