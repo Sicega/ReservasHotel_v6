@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
@@ -26,7 +27,7 @@ public class Huespedes implements IHuespedes {
     public List<Huesped> get() {
 
         List<Huesped> miHuesped = new ArrayList<>();
-        FindIterable<Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(new Document("dni",1));
+        FindIterable<Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(Sorts.ascending(MongoDB.DNI));
         for(Document miDocumento : miIterador){
             miHuesped.add(MongoDB.getHuesped(miDocumento));
         }

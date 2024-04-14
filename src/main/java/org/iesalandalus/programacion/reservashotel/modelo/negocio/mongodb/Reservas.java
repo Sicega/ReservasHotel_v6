@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import com.mongodb.client.model.Updates;
 import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
@@ -29,7 +30,7 @@ public class Reservas implements IReservas {
 
     public List<Reserva> get() {
         List <Reserva> miReserva = new ArrayList<>();
-        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(new Document("fechaInicioReserva", 1));
+        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(Sorts.ascending(MongoDB.FECHA_INICIO_RESERVA));
         for(Document miDocumento : miIterador){
             miReserva.add(MongoDB.getReserva(miDocumento));
         }

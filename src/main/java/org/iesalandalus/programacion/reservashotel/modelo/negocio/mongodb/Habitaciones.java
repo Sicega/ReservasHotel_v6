@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb;
 
 import com.mongodb.client.FindIterable;
 import com.mongodb.client.model.Filters;
+import com.mongodb.client.model.Sorts;
 import org.bson.Document;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
@@ -9,7 +10,6 @@ import org.iesalandalus.programacion.reservashotel.modelo.negocio.mongodb.utilid
 
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 public class Habitaciones implements IHabitaciones {
@@ -25,7 +25,7 @@ public class Habitaciones implements IHabitaciones {
 
     public List<Habitacion> get() {
         List <Habitacion> miHabitacion = new ArrayList<>();
-        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(Filters.eq(MongoDB.IDENTIFICADOR));
+        FindIterable <Document> miIterador = MongoDB.getBD().getCollection(COLECCION).find().sort(Sorts.ascending(MongoDB.IDENTIFICADOR));
         for(Document miDocumento : miIterador){
             miHabitacion.add(MongoDB.getHabitacion(miDocumento));
         }
@@ -81,11 +81,6 @@ public class Habitaciones implements IHabitaciones {
         coleccionHabitaciones.add(habitacion);
     }
 
-    // Método privado para buscar el índice de una habitación en la colección
-    private int buscarIndice(Habitacion habitacion) {
-        return coleccionHabitaciones.indexOf(habitacion);
-    }
-
     // Método para buscar una habitación en la colección
     public Habitacion buscar(Habitacion habitacion) {
         if (habitacion == null) {
@@ -101,7 +96,7 @@ public class Habitaciones implements IHabitaciones {
     // Método para borrar una habitación de la colección
     public void borrar(Habitacion habitacion) throws OperationNotSupportedException {
         if (habitacion == null) {
-            throw new NullPointerException("ERROR: No se puede borrar una habitación nula.");
+            throw new NullPointerException("ERROR: La habitación no puede ser nula.");
         }
 
         if(!coleccionHabitaciones.contains(habitacion)){
