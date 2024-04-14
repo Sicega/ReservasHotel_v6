@@ -1,7 +1,6 @@
 package org.iesalandalus.programacion.reservashotel.controlador;
 
 import org.iesalandalus.programacion.reservashotel.modelo.IModelo;
-import org.iesalandalus.programacion.reservashotel.modelo.Modelo;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
@@ -20,7 +19,7 @@ public class Controlador {
 
     //M?TODOS CONSTRUCTOR, COMENZAR Y TERMINAR
 
-    public Controlador(Modelo modelo, Vista vista){
+    public Controlador(IModelo modelo, Vista vista){
 
         if (modelo == null || vista == null) { //Verifico que ni modelo ni vista sean nulos
             throw new IllegalArgumentException("ERROR: El modelo y la vista no pueden ser nulos.");

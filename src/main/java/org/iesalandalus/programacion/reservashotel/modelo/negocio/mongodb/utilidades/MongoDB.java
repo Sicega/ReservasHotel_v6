@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 
 public class MongoDB {
 
-    public static final DateTimeFormatter FORMATO_DIA=DateTimeFormatter.ofPattern("dd-MM-yyyy");
-    public static final DateTimeFormatter FORMATO_DIA_HORA=DateTimeFormatter.ofPattern("dd-MM-yyyy HH:mm");
+    public static final DateTimeFormatter FORMATO_DIA=DateTimeFormatter.ofPattern("dd/MM/yyyy");
+    public static final DateTimeFormatter FORMATO_DIA_HORA=DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm");
 
    private static final String SERVIDOR="cluster0.pdenqqn.mongodb.net/?retryWrites=true&w=majority";
 
@@ -133,7 +133,7 @@ public class MongoDB {
                 .append(NOMBRE, huesped.getNombre())
                 .append(CORREO,huesped.getCorreo())
                 .append(TELEFONO, huesped.getTelefono())
-                .append(FECHA_NACIMIENTO, huesped.getFechaNacimiento());
+                .append(FECHA_NACIMIENTO, huesped.getFechaNacimiento().format(FORMATO_DIA));
 
         return miDocumento;
     }
@@ -143,8 +143,8 @@ public class MongoDB {
             throw new NullPointerException("ERROR: El documento no puede ser nulo.");
         }
 
-        Huesped miHuesped = new Huesped(documentoHuesped.getString(DNI),
-                documentoHuesped.getString(NOMBRE),
+        Huesped miHuesped = new Huesped(documentoHuesped.getString(NOMBRE),
+                documentoHuesped.getString(DNI),
                 documentoHuesped.getString(CORREO),
                 documentoHuesped.getString(TELEFONO),
                 LocalDate.parse(documentoHuesped.getString(FECHA_NACIMIENTO), FORMATO_DIA));
@@ -155,13 +155,13 @@ public class MongoDB {
          if(habitacion == null){
              throw new NullPointerException("ERROR: La habitación no puede ser nula.");
          }
-        Document miDocumento= new Document()
-                .append(PLANTA, habitacion.getPlanta())
-                .append(PUERTA, habitacion.getPuerta())
-                .append(PRECIO, habitacion.getPrecio())
-                .append(NUMERO_PERSONAS,habitacion.getNumeroMaximoPersonas())
-                .append(IDENTIFICADOR, habitacion.getIdentificador());
 
+         Document miDocumento= new Document()
+                 .append(PLANTA, habitacion.getPlanta())
+                 .append(PUERTA, habitacion.getPuerta())
+                 .append(PRECIO, habitacion.getPrecio())
+                 .append(NUMERO_PERSONAS,habitacion.getNumeroMaximoPersonas())
+                 .append(IDENTIFICADOR, habitacion.getIdentificador());
         if(habitacion instanceof Simple){
             miDocumento.append(TIPO, TIPO_SIMPLE);
         }
@@ -189,24 +189,24 @@ public class MongoDB {
          }
         Habitacion miHabitacion=null;
 
-         if (documentoHabitacion.get(TIPO).equals(TIPO_SIMPLE)){
+         if (documentoHabitacion.getString(TIPO).equals(TIPO_SIMPLE)){
              miHabitacion= new Simple(documentoHabitacion.getInteger(PLANTA), documentoHabitacion.getInteger(PUERTA),
                      documentoHabitacion.getDouble(PRECIO));
          }
 
-         if (documentoHabitacion.get(TIPO).equals(TIPO_DOBLE)){
+         if (documentoHabitacion.getString(TIPO).equals(TIPO_DOBLE)){
              miHabitacion= new Doble(documentoHabitacion.getInteger(PLANTA), documentoHabitacion.getInteger(PUERTA),
                      documentoHabitacion.getDouble(PRECIO), documentoHabitacion.getInteger(CAMAS_INDIVIDUALES),
                      documentoHabitacion.getInteger(CAMAS_DOBLES));
          }
 
-         if (documentoHabitacion.get(TIPO).equals(TIPO_TRIPLE)){
+         if (documentoHabitacion.getString(TIPO).equals(TIPO_TRIPLE)){
              miHabitacion= new Triple(documentoHabitacion.getInteger(PLANTA), documentoHabitacion.getInteger(PUERTA),
-                     documentoHabitacion.getDouble(PRECIO), documentoHabitacion.getInteger(CAMAS_INDIVIDUALES),
-                     documentoHabitacion.getInteger(CAMAS_DOBLES), documentoHabitacion.getInteger(BANOS));
+                     documentoHabitacion.getDouble(PRECIO), documentoHabitacion.getInteger(BANOS),documentoHabitacion.getInteger(CAMAS_INDIVIDUALES),
+                     documentoHabitacion.getInteger(CAMAS_DOBLES));
          }
 
-         if (documentoHabitacion.get(TIPO).equals(TIPO_SUITE)){
+         if (documentoHabitacion.getString(TIPO).equals(TIPO_SUITE)){
              miHabitacion= new Suite(documentoHabitacion.getInteger(PLANTA), documentoHabitacion.getInteger(PUERTA),
                      documentoHabitacion.getDouble(PRECIO), documentoHabitacion.getInteger(BANOS),
                      documentoHabitacion.getBoolean(JACUZZI));
@@ -228,8 +228,15 @@ public class MongoDB {
                 LocalDate.parse(documentoReserva.getString(FECHA_FIN_RESERVA), FORMATO_DIA),
                 documentoReserva.getInteger(NUMERO_PERSONAS));
 
-                miReserva.setCheckIn(LocalDateTime.parse(documentoReserva.getString(CHECKIN), FORMATO_DIA_HORA));
-                miReserva.setCheckOut(LocalDateTime.parse(documentoReserva.getString(CHECKOUT), FORMATO_DIA_HORA));
+         if(documentoReserva.containsKey(CHECKIN)){
+
+             miReserva.setCheckIn(LocalDateTime.parse(documentoReserva.getString(CHECKIN), FORMATO_DIA_HORA));
+         }
+
+         if(documentoReserva.containsKey(CHECKOUT)){
+
+             miReserva.setCheckOut(LocalDateTime.parse(documentoReserva.getString(CHECKOUT), FORMATO_DIA_HORA));
+         }
 
         return miReserva;
 
@@ -238,12 +245,14 @@ public class MongoDB {
         if(reserva == null){
             throw new NullPointerException("ERROR: La reserva no puede ser nula.");
         }
+
         Document miDocumento= new Document().append(HUESPED,getDocumento(reserva.getHuesped()))
                 .append(HABITACION,getDocumento(reserva.getHabitacion()))
-                .append(FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva())
-                .append(FECHA_FIN_RESERVA, reserva.getFechaFinReserva())
-                .append(CHECKIN, reserva.getCheckIn())
-                .append(CHECKOUT, reserva.getCheckOut());
+                .append(REGIMEN,reserva.getRegimen().name())
+                .append(FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva().format(FORMATO_DIA))
+                .append(FECHA_FIN_RESERVA, reserva.getFechaFinReserva().format(FORMATO_DIA))
+                .append(NUMERO_PERSONAS,reserva.getNumeroPersonas());
+
 
         return miDocumento;
      }

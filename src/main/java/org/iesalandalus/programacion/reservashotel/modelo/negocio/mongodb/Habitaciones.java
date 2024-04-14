@@ -21,6 +21,7 @@ public class Habitaciones implements IHabitaciones {
 
     public Habitaciones() {
         this.coleccionHabitaciones = new ArrayList<>();
+        comenzar();
     }
 
     public List<Habitacion> get() {
@@ -56,8 +57,7 @@ public class Habitaciones implements IHabitaciones {
             }
         }
 
-        // Devuelvo una nueva lista con las habitaciones del tipo especificado copiadas
-        return new ArrayList<>(habitacionesTipo);
+        return habitacionesTipo;
     }
 
     // Método para obtener el tamaño actual de la colección
@@ -87,10 +87,14 @@ public class Habitaciones implements IHabitaciones {
             throw new NullPointerException("ERROR: No se puede buscar una habitación nula.");
         }
 
-        Document miDocumento=MongoDB.getBD().getCollection(COLECCION).find(Filters.eq(MongoDB.IDENTIFICADOR,habitacion.getIdentificador())).first();
-        Habitacion miHabitacion=MongoDB.getHabitacion(miDocumento);
+        Document miDocumento=MongoDB.getBD().getCollection(COLECCION).find(
+                Filters.eq(MongoDB.IDENTIFICADOR,habitacion.getIdentificador())).first();
 
-        return miHabitacion;
+        if (miDocumento == null)
+            return null;
+        else{
+            return MongoDB.getHabitacion(miDocumento);
+        }
     }
 
     // Método para borrar una habitación de la colección
@@ -99,7 +103,7 @@ public class Habitaciones implements IHabitaciones {
             throw new NullPointerException("ERROR: La habitación no puede ser nula.");
         }
 
-        if(!coleccionHabitaciones.contains(habitacion)){
+        if(buscar(habitacion)==null){
             throw new OperationNotSupportedException("No existe esa habitación.");
         }
 

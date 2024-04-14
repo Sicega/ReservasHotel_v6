@@ -26,6 +26,7 @@ public class Reservas implements IReservas {
     public Reservas() {
 
         this.coleccionReservas = new ArrayList<>();
+        comenzar();
     }
 
     public List<Reserva> get() {
@@ -60,6 +61,8 @@ public class Reservas implements IReservas {
 
         Document miDocumento= MongoDB.getDocumento(reserva);
 
+        System.out.println(miDocumento);
+
         MongoDB.getBD().getCollection(COLECCION).insertOne(miDocumento);
         coleccionReservas.add(new Reserva(reserva));
 
@@ -74,12 +77,14 @@ public class Reservas implements IReservas {
         Document miDocumento=MongoDB.getBD().getCollection(COLECCION).find(Filters.and(
 
                 Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()),
-                Filters.eq(MongoDB.FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva())
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA, reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA))
         )).first();
 
-        Reserva miReserva= MongoDB.getReserva(miDocumento);
-
-        return miReserva;
+        if(miDocumento==null){
+            return null;
+        }else{
+            return MongoDB.getReserva(miDocumento);
+        }
     }
 
     // Para eliminar una reserva de la colección
@@ -88,7 +93,7 @@ public class Reservas implements IReservas {
             throw new NullPointerException("ERROR: No se puede borrar una reserva nula.");
         }
 
-        if (!coleccionReservas.contains(reserva)) { //Si en la colección no se encuentra la reserva introducida salta excepción
+        if (buscar(reserva)==null) { //Si en la colección no se encuentra la reserva introducida salta excepción
 
             throw new OperationNotSupportedException("ERROR: No existe ninguna reserva como la indicada.");
         }
@@ -96,7 +101,7 @@ public class Reservas implements IReservas {
         MongoDB.getBD().getCollection(COLECCION).deleteOne(Filters.and(
 
                 Filters.eq(MongoDB.HABITACION_IDENTIFICADOR, reserva.getHabitacion().getIdentificador()),
-                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva())
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA))
         ));
 
         coleccionReservas.remove(reserva);
@@ -222,7 +227,7 @@ public class Reservas implements IReservas {
 
         MongoDB.getBD().getCollection(COLECCION).updateOne(Filters.and(
                 Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()),
-                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva())
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA))
         ), Updates.set(MongoDB.CHECKIN,fecha.format(MongoDB.FORMATO_DIA_HORA)));
 
     }
@@ -258,7 +263,7 @@ public class Reservas implements IReservas {
 
         MongoDB.getBD().getCollection(COLECCION).updateOne(Filters.and(
                 Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()),
-                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva())
+                Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA))
         ), Updates.set(MongoDB.CHECKOUT,fecha.format(MongoDB.FORMATO_DIA_HORA)));
 
     }

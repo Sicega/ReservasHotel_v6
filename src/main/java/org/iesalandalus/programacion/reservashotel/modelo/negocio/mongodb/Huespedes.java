@@ -22,7 +22,9 @@ public class Huespedes implements IHuespedes {
     // Constructor
     public Huespedes() {
         this.coleccionHuespedes = new ArrayList<>();
+        comenzar();
     }
+
 
     public List<Huesped> get() {
 
@@ -51,7 +53,7 @@ public class Huespedes implements IHuespedes {
 
         Document miDocumento = MongoDB.getDocumento(huesped);
         MongoDB.getBD().getCollection(COLECCION).insertOne(miDocumento);
-        coleccionHuespedes.add(huesped);
+        coleccionHuespedes.add(new Huesped(huesped));
 
     }
 
@@ -62,9 +64,12 @@ public class Huespedes implements IHuespedes {
         }
 
         Document miDocumento=MongoDB.getBD().getCollection(COLECCION).find(Filters.eq(MongoDB.DNI,huesped.getDni())).first();
-        Huesped miHuesped=MongoDB.getHuesped(miDocumento);
 
-        return miHuesped;
+        if (miDocumento == null)
+            return null;
+        else{
+            return MongoDB.getHuesped(miDocumento);
+        }
     }
 
     // Para eliminar un huésped de la colección
@@ -73,7 +78,7 @@ public class Huespedes implements IHuespedes {
             throw new NullPointerException("ERROR: No se puede borrar un huésped nulo.");
         }
 
-        if(!coleccionHuespedes.contains(huesped)){
+        if(buscar(huesped)==null){
 
             throw new OperationNotSupportedException("ERROR: No existe ningún huésped como el indicado.");
         }
