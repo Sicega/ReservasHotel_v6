@@ -61,8 +61,6 @@ public class Reservas implements IReservas {
 
         Document miDocumento= MongoDB.getDocumento(reserva);
 
-        System.out.println(miDocumento);
-
         MongoDB.getBD().getCollection(COLECCION).insertOne(miDocumento);
         coleccionReservas.add(new Reserva(reserva));
 
@@ -215,16 +213,6 @@ public class Reservas implements IReservas {
             throw new IllegalArgumentException("ERROR: La fecha del checkIn no puede ser anterior a la reserva.");
         }
 
-        // Utilizo un iterador para buscar la reserva en el ArrayList
-        Iterator<Reserva> iterator = coleccionReservas.iterator();
-        while (iterator.hasNext()) {
-            Reserva actual = iterator.next();
-            if (actual.equals(reserva)) {
-                actual.setCheckIn(fecha);
-                return;
-            }
-        }
-
         MongoDB.getBD().getCollection(COLECCION).updateOne(Filters.and(
                 Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,reserva.getHabitacion().getIdentificador()),
                 Filters.eq(MongoDB.FECHA_INICIO_RESERVA,reserva.getFechaInicioReserva().format(MongoDB.FORMATO_DIA))
@@ -249,16 +237,6 @@ public class Reservas implements IReservas {
 
         if (fecha.isBefore(reserva.getFechaInicioReserva().atStartOfDay()) || fecha.isBefore(reserva.getCheckIn())) {
             throw new IllegalArgumentException("ERROR: La fecha del checkOut no puede ser anterior a la de inicio de reserva o antes del checkIn.");
-        }
-
-        // Utilizo un iterador para buscar la reserva en el ArrayList
-        Iterator<Reserva> iterator = coleccionReservas.iterator();
-        while (iterator.hasNext()) {
-            Reserva actual = iterator.next();
-            if (actual.equals(reserva)) {
-                actual.setCheckOut(fecha);
-                return;
-            }
         }
 
         MongoDB.getBD().getCollection(COLECCION).updateOne(Filters.and(

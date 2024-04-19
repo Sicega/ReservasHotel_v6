@@ -107,6 +107,10 @@ public class Habitaciones implements IHabitaciones {
             throw new OperationNotSupportedException("No existe esa habitación.");
         }
 
+        if(MongoDB.getBD().getCollection("reservas").find(Filters.eq(MongoDB.HABITACION_IDENTIFICADOR,habitacion.getIdentificador())).first()!=null){
+            throw new OperationNotSupportedException("ERROR: No se puede borrar una habitacion con reserva.");
+        }
+
         MongoDB.getBD().getCollection(COLECCION).deleteOne(Filters.eq(MongoDB.IDENTIFICADOR, habitacion.getIdentificador()));
         coleccionHabitaciones.remove(habitacion);
     }

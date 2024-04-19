@@ -79,7 +79,14 @@ public class Vista {
 
             Huesped huespedEncontrado = controlador.buscar(huesped);
 
+            if(huespedEncontrado==null){
+                System.out.println("No existe ese huesped.");
+
+            }else{
+
             System.out.println(huespedEncontrado);
+
+            }
 
         }catch (IllegalArgumentException|NullPointerException e){
 

@@ -83,6 +83,10 @@ public class Huespedes implements IHuespedes {
             throw new OperationNotSupportedException("ERROR: No existe ningún huésped como el indicado.");
         }
 
+        if(MongoDB.getBD().getCollection("reservas").find(Filters.eq(MongoDB.HUESPED_DNI,huesped.getDni())).first()!=null){
+            throw new OperationNotSupportedException("ERROR: No se puede borrar un huesped con reserva.");
+        }
+
         MongoDB.getBD().getCollection(COLECCION).deleteOne(Filters.eq(MongoDB.DNI,huesped.getDni()));
         coleccionHuespedes.remove(huesped);
 

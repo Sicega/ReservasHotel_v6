@@ -19,20 +19,23 @@ public class MainApp {
 
         controlador.comenzar();
         controlador.terminar();
-        
+
     }
 
-    public static Modelo procesarArgumentosFuenteDatos(String[] args){
+    public static Modelo procesarArgumentosFuenteDatos(String[] args) {
 
-        Modelo modelo= null;
+        Modelo modelo = null;
 
-        if(args[0].equalsIgnoreCase("-fdmemoria")){
+        if (args.length == 0) {
+            System.out.println("No ha escogido un modelo, se pondrá por defecto -fdmongodb.");
+            modelo = new Modelo(FactoriaFuenteDatos.MONGODB);
+
+        } else if (args[0].equalsIgnoreCase("-fdmemoria")) {
             modelo = new Modelo(FactoriaFuenteDatos.MEMORIA);
         } else if (args[0].equalsIgnoreCase("-fdmongodb")) {
             modelo = new Modelo(FactoriaFuenteDatos.MONGODB);
         }
-
-        return modelo;
+            return modelo;
     }
-
 }
+

@@ -124,6 +124,7 @@ public class MongoDB {
             System.out.println("Conexión a MongoDB cerrada.");
         }
     }
+
     public static Document getDocumento(Huesped huesped){
         if(huesped == null){
             throw new NullPointerException("ERROR: El huesped no puede ser nulo.");
