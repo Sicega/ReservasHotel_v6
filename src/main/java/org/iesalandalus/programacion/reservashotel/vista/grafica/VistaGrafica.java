@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.reservashotel.vista.grafico;
+package org.iesalandalus.programacion.reservashotel.vista.grafica;
 
 import org.iesalandalus.programacion.reservashotel.vista.Vista;
 
