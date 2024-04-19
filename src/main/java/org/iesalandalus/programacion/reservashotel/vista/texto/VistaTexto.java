@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.reservashotel.vista;
+package org.iesalandalus.programacion.reservashotel.vista.texto;
 
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
@@ -13,11 +13,11 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class Vista {
+public class VistaTexto {
 
     private Controlador controlador;
 
-    public Vista(){
+    public VistaTexto(){
         Opcion.setVista(this);
     }
 
