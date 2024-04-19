@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.reservashotel.vista.texto;
 
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
+import org.iesalandalus.programacion.reservashotel.vista.Vista;
 import org.iesalandalus.programacion.utilidades.Entrada;
 
 import javax.naming.OperationNotSupportedException;
@@ -13,7 +14,7 @@ import java.util.Iterator;
 import java.util.List;
 
 
-public class VistaTexto {
+public class VistaTexto extends Vista{
 
     private Controlador controlador;
 
@@ -31,6 +32,7 @@ public class VistaTexto {
         }
     }
 
+    @Override
     public void comenzar(){ // Inicia la ejecucion de la vista
 
         Opcion opcion;
@@ -45,7 +47,7 @@ public class VistaTexto {
         } while (opcion != Opcion.SALIR);
 
     }
-
+    @Override
     public void terminar() { // Finaliza la ejecuci�n de la vista
 
         System.out.println("�Hasta luego!"); //Mensaje de salida de despedida
