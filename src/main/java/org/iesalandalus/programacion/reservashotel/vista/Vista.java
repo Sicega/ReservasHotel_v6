@@ -6,7 +6,7 @@ public abstract class Vista {
 
     private Controlador controlador;
 
-     void setControlador(Controlador controlador) {
+     public void setControlador(Controlador controlador) {
         this.controlador = controlador;
     }
 

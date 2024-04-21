@@ -5,6 +5,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.TipoHabitacion;
+import org.iesalandalus.programacion.reservashotel.vista.Vista;
 import org.iesalandalus.programacion.reservashotel.vista.texto.VistaTexto;
 
 import javax.naming.OperationNotSupportedException;
@@ -14,12 +15,12 @@ import java.util.List;
 public class Controlador {
 
     private IModelo modelo;
-    private VistaTexto vista;
+    private Vista vista;
 
 
     //M?TODOS CONSTRUCTOR, COMENZAR Y TERMINAR
 
-    public Controlador(IModelo modelo, VistaTexto vista){
+    public Controlador(IModelo modelo, Vista vista){
 
         if (modelo == null || vista == null) { //Verifico que ni modelo ni vista sean nulos
             throw new IllegalArgumentException("ERROR: El modelo y la vista no pueden ser nulos.");
