@@ -28,7 +28,7 @@ public class MainApp {
 
         Modelo modelo = null;
 
-        if (args.length == 0) {
+        if (args.length == 0 || args.length == 1) {
             System.out.println("No ha escogido un modelo, se pondrá por defecto -fdmongodb.");
             modelo = new Modelo(FactoriaFuenteDatos.MONGODB);
 
@@ -44,13 +44,13 @@ public class MainApp {
 
         Vista vista = null;
 
-        if (args.length == 0) {
+        if (args.length == 0 || args.length == 1) {
             System.out.println("No ha escogido una vista, se pondrá por defecto -vGrafica.");
             vista = FactoriaVista.GRAFICA.crear();
 
-        } else if (args[0].equalsIgnoreCase("-vTexto")) {
+        } else if (args[1].equalsIgnoreCase("-vTexto")) {
             vista = FactoriaVista.TEXTO.crear();
-        } else if (args[0].equalsIgnoreCase("-vGrafica")) {
+        } else if (args[1].equalsIgnoreCase("-vGrafica")) {
             vista = FactoriaVista.GRAFICA.crear();
         }
         return vista;
