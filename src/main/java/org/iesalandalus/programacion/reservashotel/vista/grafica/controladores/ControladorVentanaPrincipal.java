@@ -6,6 +6,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Menu;
 import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
 
@@ -16,6 +17,8 @@ public class ControladorVentanaPrincipal {
     @FXML private Button btHabitaciones;
     @FXML private Button btHuespedes;
     @FXML private Button btReservas;
+    @FXML private Menu mnAcercaDePrincipal;
+    @FXML private Menu mnArchivoPrincipal;
 
     @FXML
     void clickAbrirVentanaHabitaciones(ActionEvent event) {
@@ -76,6 +79,12 @@ public class ControladorVentanaPrincipal {
         {
             System.out.println(e.getMessage());
         }
+
+    }
+
+    @FXML
+    void clickSalirAplicacion(ActionEvent event) {
+
 
     }
 

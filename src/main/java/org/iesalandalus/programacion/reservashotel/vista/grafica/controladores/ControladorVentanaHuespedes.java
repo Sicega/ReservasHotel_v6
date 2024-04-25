@@ -13,4 +13,13 @@ import java.io.IOException;
 
 public class ControladorVentanaHuespedes {
 
+
+
+    @FXML
+    void clickSalirAplicacion(ActionEvent event) {
+
+
+    }
+
+
 }

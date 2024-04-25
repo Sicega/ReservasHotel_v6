@@ -20,13 +20,14 @@ public class LanzadorVentanaPrincipal extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaPrincipal.fxml"));
         Parent raiz=fxmlLoader.load();
         Scene scene = new Scene(raiz, 600, 400);
+        scene.getStylesheets().add(LocalizadorRecursos.class.getResource("estilos/estilos.css").toExternalForm());
         escenarioPrincipal.setTitle("Hotel Al-Andalus");
         escenarioPrincipal.setScene(scene);
         escenarioPrincipal.show();
     }
 
     private void confirmarSalida(Stage escenarioPrincipal, WindowEvent e){
-        //todo pendiente crear ventana y escena y crear pestaña Archivo y Acerca de
+        //todo pendiente crear ventanas y escenas
     }
 
 }
