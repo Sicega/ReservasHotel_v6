@@ -4,46 +4,32 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dddddd;" styleClass="raiz" stylesheets="@../estilos/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaReservas">
     <children>
-        <Button layoutX="37.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Huespedes" textFill="WHITE">
+        <Button layoutX="22.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Agregar" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <Button layoutX="228.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Habitaciones" textFill="WHITE">
+        <Button layoutX="168.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Borrar" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <Button layoutX="439.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Reservas" textFill="WHITE">
+        <Button layoutX="296.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Check in" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <ImageView fitHeight="59.0" fitWidth="63.0" layoutX="77.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/huesped.png" />
-            </image></ImageView>
-        <ImageView fitHeight="59.0" fitWidth="59.0" layoutX="277.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/habitacion.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="59.0" fitWidth="59.0" layoutX="470.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/reserva.png" />
-            </image>
-        </ImageView>
-        <Text fill="#333333" layoutX="105.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¡Bienvenido al Hotel Al-Andalus!" wrappingWidth="402.67926025390625">
+        <Text fill="#333333" layoutX="16.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Listado Reservas:" wrappingWidth="402.67926025390625">
             <font>
-                <Font name="HelveticaNeueLTStd-Bd" size="25.0" />
+                <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Text>
         <MenuBar fx:id="mnVentanaPrincipal" prefHeight="26.0" prefWidth="600.0" style="-fx-background-color: lightgray;" stylesheets="@../estilos/estilos.css">
@@ -51,6 +37,7 @@
                 <Menu fx:id="mnArchivoPrincipal" mnemonicParsing="false" onAction="#clickSalirAplicacion" text="Archivo">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Salir" />
+                        <MenuItem mnemonicParsing="false" text="Volver" />
                     </items>
                 </Menu>
                 <Menu fx:id="mnAcercaDePrincipal" mnemonicParsing="false" text="Acerca de">
@@ -60,10 +47,23 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <ImageView fitHeight="108.0" fitWidth="157.0" layoutX="246.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/logoAlAndalus.png" />
-            </image>
-        </ImageView>
+        <TableView layoutX="16.0" layoutY="173.0" prefHeight="200.0" prefWidth="563.0">
+            <columns>
+                <TableColumn prefWidth="57.5999755859375" text="Huesped" />
+                <TableColumn minWidth="8.79998779296875" prefWidth="52.7999267578125" text="Habitacion" />
+                <TableColumn prefWidth="45.5999755859375" text="Precio" />
+                <TableColumn prefWidth="85.60003662109375" text="Tipo Habitacion" />
+                <TableColumn prefWidth="66.39996337890625" text="Capacidad" />
+            <TableColumn prefWidth="73.60003662109375" text="Fecha inicio" />
+            <TableColumn prefWidth="58.4000244140625" text="Fecha fin" />
+            <TableColumn prefWidth="58.4000244140625" text="CheckIn" />
+            <TableColumn prefWidth="63.99993896484375" text="CheckOut" />
+            </columns>
+        </TableView>
+      <Button layoutX="445.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Check out" textFill="WHITE">
+         <font>
+            <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
+         </font>
+      </Button>
     </children>
 </Pane>

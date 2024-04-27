@@ -4,46 +4,32 @@
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dddddd;" styleClass="raiz" stylesheets="@../estilos/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaHabitaciones">
     <children>
-        <Button layoutX="37.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Huespedes" textFill="WHITE">
+        <Button layoutX="37.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Agregar" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <Button layoutX="228.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Habitaciones" textFill="WHITE">
+        <Button layoutX="183.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Borrar" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <Button layoutX="439.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Reservas" textFill="WHITE">
+        <Button layoutX="315.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Buscar Reservas" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <ImageView fitHeight="59.0" fitWidth="63.0" layoutX="77.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/huesped.png" />
-            </image></ImageView>
-        <ImageView fitHeight="59.0" fitWidth="59.0" layoutX="277.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/habitacion.png" />
-            </image>
-        </ImageView>
-        <ImageView fitHeight="59.0" fitWidth="59.0" layoutX="470.0" layoutY="256.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/reserva.png" />
-            </image>
-        </ImageView>
-        <Text fill="#333333" layoutX="105.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="¡Bienvenido al Hotel Al-Andalus!" wrappingWidth="402.67926025390625">
+        <Text fill="#333333" layoutX="16.0" layoutY="148.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Listado Habitaciones:" wrappingWidth="402.67926025390625">
             <font>
-                <Font name="HelveticaNeueLTStd-Bd" size="25.0" />
+                <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Text>
         <MenuBar fx:id="mnVentanaPrincipal" prefHeight="26.0" prefWidth="600.0" style="-fx-background-color: lightgray;" stylesheets="@../estilos/estilos.css">
@@ -51,6 +37,7 @@
                 <Menu fx:id="mnArchivoPrincipal" mnemonicParsing="false" onAction="#clickSalirAplicacion" text="Archivo">
                     <items>
                         <MenuItem mnemonicParsing="false" text="Salir" />
+                        <MenuItem mnemonicParsing="false" text="Volver" />
                     </items>
                 </Menu>
                 <Menu fx:id="mnAcercaDePrincipal" mnemonicParsing="false" text="Acerca de">
@@ -60,10 +47,17 @@
                 </Menu>
             </menus>
         </MenuBar>
-        <ImageView fitHeight="108.0" fitWidth="157.0" layoutX="246.0" layoutY="112.0" pickOnBounds="true" preserveRatio="true">
-            <image>
-                <Image url="@../imagenes/logoAlAndalus.png" />
-            </image>
-        </ImageView>
+        <TableView layoutX="16.0" layoutY="173.0" prefHeight="200.0" prefWidth="563.0">
+            <columns>
+                <TableColumn prefWidth="87.20001220703125" text="Identificador" />
+                <TableColumn minWidth="3.199951171875" prefWidth="62.4000244140625" text="Planta" />
+                <TableColumn prefWidth="78.39996337890625" text="Puerta" />
+                <TableColumn prefWidth="59.20001220703125" text="Precio" />
+                <TableColumn prefWidth="98.4000244140625" text="Tipo Habitacion" />
+            <TableColumn prefWidth="60.00006103515625" text="Camas" />
+            <TableColumn prefWidth="57.5999755859375" text="Baño" />
+            <TableColumn prefWidth="57.5999755859375" text="Jacuzzi" />
+            </columns>
+        </TableView>
     </children>
 </Pane>
