@@ -1,11 +1,16 @@
 package org.iesalandalus.programacion.reservashotel.vista.grafica.controladores;
 
+import javafx.collections.FXCollections;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.stage.Stage;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
+
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class ControladorVentanaInsertaReserva {
 
@@ -16,84 +21,122 @@ public class ControladorVentanaInsertaReserva {
     private Button btnCancelar;
 
     @FXML
+    private ComboBox<Regimen> cbRegimen;
+
+    @FXML
+    private ComboBox<TipoHabitacion> cbTipoHabitacionReserva;
+
+    @FXML
     private DatePicker dpFechaFin;
 
     @FXML
     private DatePicker dpFechaInicio;
 
     @FXML
-    private RadioButton rbSimpleReserva;
-
-    @FXML
-    private RadioButton rbSuiteReserva;
-
-    @FXML
-    private RadioButton rbTripleReserva;
-
-    @FXML
-    private RadioButton rdDobleReserva;
-
-    @FXML
     private TextField tfDniReserva;
+
+    @FXML
+    private ComboBox<?> cbPersonasReserva;
 
     @FXML
     private TextField tfIdentificadorReserva;
 
     @FXML
-    private TextField tfNombreReserva;
+    private ToggleGroup grupoPersonas;
+
+    @FXML
+    private RadioButton rbPersonas1;
+
+    @FXML
+    private RadioButton rbPersonas2;
+
+    @FXML
+    private RadioButton rbPersonas3;
+
+    @FXML
+    private RadioButton rbPersonas4;
+
+
+    @FXML
+
+    void initialize(){
+
+        cbTipoHabitacionReserva.setItems(FXCollections.observableArrayList(TipoHabitacion.values()));
+        cbRegimen.setItems(FXCollections.observableArrayList(Regimen.values()));
+
+    }
 
     @FXML
     void aceptar(ActionEvent event) {
+
+        Huesped huesped= VistaGrafica.getInstancia().getControlador().buscar(new Huesped("sdf", tfDniReserva.getText(), "asdf@fdsad.xom", "999223344", LocalDate.of(1999,12,12)));
+
+        Habitacion habitacion= VistaGrafica.getInstancia().getControlador().buscar(new Simple(1, 1, 50));
+
+        TipoHabitacion tipo=null;
+
+        Regimen regimen=null;
+
+        int numPersonas=1;
+
+            if(cbTipoHabitacionReserva.getSelectionModel().isSelected(0)){
+                tipo=TipoHabitacion.SUITE;
+            }
+            else if (cbTipoHabitacionReserva.getSelectionModel().isSelected(1)) {
+
+                tipo=TipoHabitacion.SIMPLE;
+            }
+
+            else if(cbTipoHabitacionReserva.getSelectionModel().isSelected(2)){
+                tipo=TipoHabitacion.DOBLE;
+            }
+
+            else if (cbTipoHabitacionReserva.getSelectionModel().isSelected(3)){
+                tipo=TipoHabitacion.TRIPLE;
+            }
+
+        if(cbRegimen.getSelectionModel().isSelected(0)){
+            regimen=Regimen.SOLO_ALOJAMIENTO;
+        }
+        else if (cbRegimen.getSelectionModel().isSelected(1)) {
+
+            regimen=Regimen.ALOJAMIENTO_DESAYUNO;
+        }
+
+        else if(cbRegimen.getSelectionModel().isSelected(2)){
+            regimen=Regimen.MEDIA_PENSION;
+        }
+
+        else if (cbRegimen.getSelectionModel().isSelected(3)){
+            regimen=Regimen.PENSION_COMPLETA;
+        }
+
+        RadioButton rbSeleccionado=(RadioButton) grupoPersonas.getSelectedToggle();
+        if (rbSeleccionado==rbPersonas1)
+        {
+            numPersonas=1;
+        }
+        else if (rbSeleccionado==rbPersonas2)
+        {
+            numPersonas=2;
+        }
+        else if (rbSeleccionado==rbPersonas3)
+        {
+            numPersonas=3;
+
+        }else if(rbSeleccionado==rbPersonas4){
+
+            numPersonas=4;
+        }
+
+        System.out.println(new Reserva(huesped, habitacion, regimen, dpFechaInicio.getValue(),dpFechaFin.getValue(),numPersonas));
 
     }
 
     @FXML
     void cancelar(ActionEvent event) {
 
-    }
-
-    @FXML
-    void dniReserva(ActionEvent event) {
-
-    }
-
-    @FXML
-    void dobleReserva(ActionEvent event) {
-
-    }
-
-    @FXML
-    void fechaFin(ActionEvent event) {
-
-    }
-
-    @FXML
-    void fechaInicio(ActionEvent event) {
-
-    }
-
-    @FXML
-    void identificadorReserva(ActionEvent event) {
-
-    }
-
-    @FXML
-    void nombreReserva(ActionEvent event) {
-
-    }
-
-    @FXML
-    void simpleReserva(ActionEvent event) {
-
-    }
-
-    @FXML
-    void suiteReserva(ActionEvent event) {
-
-    }
-
-    @FXML
-    void tripleReserva(ActionEvent event) {
+        ((Stage)btnCancelar.getScene().getWindow()).close();
 
     }
 

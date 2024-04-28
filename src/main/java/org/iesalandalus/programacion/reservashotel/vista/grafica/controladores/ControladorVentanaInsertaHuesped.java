@@ -5,6 +5,8 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
+import javafx.stage.Stage;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 
 public class ControladorVentanaInsertaHuesped {
 
@@ -32,36 +34,16 @@ public class ControladorVentanaInsertaHuesped {
     @FXML
     void aceptar(ActionEvent event) {
 
+        System.out.println(new Huesped(tfNombre.getText(), tfDni.getText(),tfCorreo.getText(),tfTelefono.getText(),dpFechaNacimiento.getValue()));
+
     }
 
     @FXML
     void cancelar(ActionEvent event) {
 
-    }
-
-    @FXML
-    void correoHuesped(ActionEvent event) {
+        ((Stage)btnCancelar.getScene().getWindow()).close();
 
     }
 
-    @FXML
-    void dniHuesped(ActionEvent event) {
-
-    }
-
-    @FXML
-    void fechaNacimiento(ActionEvent event) {
-
-    }
-
-    @FXML
-    void nombreHuesped(ActionEvent event) {
-
-    }
-
-    @FXML
-    void telefonoHuesped(ActionEvent event) {
-
-    }
 
 }

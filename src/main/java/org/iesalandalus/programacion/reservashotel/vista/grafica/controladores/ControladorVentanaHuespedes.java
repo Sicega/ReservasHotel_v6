@@ -6,11 +6,18 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -54,13 +61,13 @@ public class ControladorVentanaHuespedes {
     private MenuItem mnInsertarHuesped;
 
     private ObservableList<Huesped> obsHuesped = FXCollections.observableArrayList();
-    private List<Huesped> coleccionHuesped=VistaGrafica.getInstancia().getControlador().getHuespedes();
+    private List<Huesped> coleccionHuesped;
 
-    /*private void cargaDatosHuesped()
+    private void cargaDatosHuesped()
     {
         System.out.println(coleccionHuesped);
 
-        obsHuesped.setAll(coleccionHuesped);
+        //obsHuesped.setAll(coleccionHuesped);
         System.out.println(obsHuesped);
 
         tcNombre.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getNombre()));
@@ -68,7 +75,7 @@ public class ControladorVentanaHuespedes {
         tcCorreo.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getCorreo()));
         tcTelefono.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getTelefono()));
         tcFechaNacimiento.setCellValueFactory(huesped->new SimpleStringProperty(huesped.getValue().getFechaNacimiento().format(FORMATO_FECHA).toString()));
-        coleccionHuesped=VistaGrafica.getInstancia().getControlador().getHuespedes();
+        //coleccionHuesped=VistaGrafica.getInstancia().getControlador().getHuespedes();
 
 
         tvListadoHuespedes.setItems(obsHuesped);
@@ -81,12 +88,35 @@ public class ControladorVentanaHuespedes {
         cargaDatosHuesped();
 
 
-    }*/
+    }
+
+    public void inicializaDatos(ObservableList<Huesped> obs,List<Huesped> tvlistadoHuespedes)
+    {
+        obsHuesped=obs;
+        this.coleccionHuesped=coleccionHuesped;
+    }
 
     @FXML
-    void agregarHuespedes(ActionEvent event) {
+    void agregarHuespedes(ActionEvent event){
 
+        FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaInsertaHuesped.fxml"));
+        try
+        {
+            Parent raiz=fxmlLoader.load();
 
+            //ControladorVentanaHuespedes controladorVentanaHuesped=fxmlLoader.getController();
+            //controladorVentanaHuesped.inicializaDatos(obsHuesped,coleccionHuesped);
+
+            Scene escenaVentanaHuesped=new Scene(raiz,600,400);
+            Stage escenarioVentanaHuesped=new Stage();
+            escenarioVentanaHuesped.setScene(escenaVentanaHuesped);
+            escenarioVentanaHuesped.setTitle("Hotel Al-Andalus - Insertar Huesped" );
+            escenarioVentanaHuesped.initModality(Modality.APPLICATION_MODAL);
+            escenarioVentanaHuesped.showAndWait();
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
 
     }
 
@@ -101,8 +131,9 @@ public class ControladorVentanaHuespedes {
     }
 
     @FXML
-    void insertaHuesped(ActionEvent event) {
+    void insertaHuesped(ActionEvent event){
 
+            agregarHuespedes(event);
     }
 
 

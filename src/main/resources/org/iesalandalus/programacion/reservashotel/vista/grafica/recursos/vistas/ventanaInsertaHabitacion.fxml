@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.RadioButton?>
 <?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dddddd;" styleClass="raiz" stylesheets="@../estilos/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaInsertaHabitacion">
    <children>
-      <Label layoutX="54.0" layoutY="40.0" text="Identificador:" />
       <Label layoutX="55.0" layoutY="73.0" text="Planta:" />
       <Label layoutX="54.0" layoutY="107.0" text="Puerta:" />
       <Label layoutX="53.0" layoutY="142.0" text="Precio:" />
-      <TextField fx:id="tfIdentificadorHabitacion" layoutX="135.0" layoutY="36.0" onAction="#identificadorHabitacion" prefHeight="25.0" prefWidth="57.0" />
       <TextField fx:id="tfPlanta" layoutX="134.0" layoutY="69.0" onAction="#plantaHabitacion" prefHeight="25.0" prefWidth="58.0" />
       <TextField fx:id="tfPuerta" layoutX="134.0" layoutY="102.0" onAction="#puertaHabitacion" prefHeight="25.0" prefWidth="57.0" />
       <TextField fx:id="tfPrecio" layoutX="133.0" layoutY="137.0" onAction="#precioHabitacion" prefHeight="25.0" prefWidth="58.0" />
@@ -24,22 +24,32 @@
             <Button fx:id="btnCancelar" mnemonicParsing="false" onAction="#cancelar" text="Cancelar" />
          </children>
       </HBox>
-      <RadioButton fx:id="rbSimple" layoutX="151.0" layoutY="183.0" mnemonicParsing="false" onAction="#simple" text="Simple" />
-      <RadioButton fx:id="rdDoble" layoutX="225.0" layoutY="181.0" mnemonicParsing="false" onAction="#doble" text="Doble" />
-      <RadioButton fx:id="rbTriple" layoutX="297.0" layoutY="181.0" mnemonicParsing="false" onAction="#triple" text="Triple" />
-      <RadioButton fx:id="rbSuite" layoutX="370.0" layoutY="180.0" mnemonicParsing="false" onAction="#suite" text="Suite" />
       <Label layoutX="54.0" layoutY="216.0" text="Numero Camas Individuales:" />
       <Label layoutX="55.0" layoutY="281.0" text="Baños:" />
       <Label layoutX="54.0" layoutY="315.0" text="Jacuzzi:" />
-      <RadioButton fx:id="rbUnBanio" layoutX="112.0" layoutY="281.0" mnemonicParsing="false" onAction="#unBanio" text="1" />
-      <RadioButton fx:id="rbDosBanios" layoutX="158.0" layoutY="281.0" mnemonicParsing="false" onAction="#dosBanios" text="2" />
-      <RadioButton fx:id="rbJacuzziSi" layoutX="111.0" layoutY="315.0" mnemonicParsing="false" onAction="#jacuzziSi" text="Si" />
-      <RadioButton fx:id="rbJacuzziNo" layoutX="156.0" layoutY="315.0" mnemonicParsing="false" onAction="#jacuzziNo" text="No" />
+      <RadioButton fx:id="rbUnBanio" layoutX="112.0" layoutY="281.0" mnemonicParsing="false" selected="true" text="1">
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoBanios" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbDosBanios" layoutX="158.0" layoutY="281.0" mnemonicParsing="false" text="2" toggleGroup="$grupoBanios" />
+      <RadioButton fx:id="rbJacuzziSi" layoutX="111.0" layoutY="315.0" mnemonicParsing="false" text="Si">
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoJacuzzi" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbJacuzziNo" layoutX="156.0" layoutY="315.0" mnemonicParsing="false" text="No" toggleGroup="$grupoJacuzzi" />
       <Label layoutX="54.0" layoutY="249.0" text="Numero Camas Dobles:" />
-      <RadioButton fx:id="rbUnaCamaIndividual" layoutX="225.0" layoutY="213.0" mnemonicParsing="false" onAction="#unaCamaIndividual" text="1" />
-      <RadioButton fx:id="rbDosCamasIndividuales" layoutX="274.0" layoutY="213.0" mnemonicParsing="false" onAction="#dosCamasIndividuales" text="2" />
-      <RadioButton fx:id="rbTresCamasIndividuales" layoutX="320.0" layoutY="213.0" mnemonicParsing="false" onAction="#tresCamasInviduales" text="3" />
-      <RadioButton fx:id="rbCeroCamasDobles" layoutX="194.0" layoutY="249.0" mnemonicParsing="false" onAction="#ceoCamasDobles" text="0" />
-      <RadioButton fx:id="rbUnaCamaDoble" layoutX="241.0" layoutY="249.0" mnemonicParsing="false" onAction="#unaCamaDoble" text="1" />
+      <RadioButton fx:id="rbUnaCamaIndividual" layoutX="254.0" layoutY="213.0" mnemonicParsing="false" text="1">
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoCamasIndividuales" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbDosCamasIndividuales" layoutX="300.0" layoutY="213.0" mnemonicParsing="false" text="2" toggleGroup="$grupoCamasIndividuales" />
+      <RadioButton fx:id="rbTresCamasIndividuales" layoutX="347.0" layoutY="213.0" mnemonicParsing="false" text="3" toggleGroup="$grupoCamasIndividuales" />
+      <RadioButton fx:id="rbCeroCamasDobles" layoutX="194.0" layoutY="249.0" mnemonicParsing="false" selected="true" text="0">
+         <toggleGroup>
+            <ToggleGroup fx:id="grupoCamasDobles" />
+         </toggleGroup></RadioButton>
+      <RadioButton fx:id="rbUnaCamaDoble" layoutX="241.0" layoutY="249.0" mnemonicParsing="false" text="1" toggleGroup="$grupoCamasDobles" />
+      <ComboBox fx:id="cbTipoHabitacion" layoutX="147.0" layoutY="178.0" onAction="#tipoHabitacion" prefWidth="150.0" />
+      <RadioButton fx:id="rbCeroCamaIndividual" layoutX="211.0" layoutY="214.0" mnemonicParsing="false" selected="true" text="0" toggleGroup="$grupoCamasIndividuales" />
    </children>
 </Pane>
