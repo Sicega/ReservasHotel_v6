@@ -7,6 +7,7 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
 import java.io.IOException;
 
@@ -23,11 +24,19 @@ public class LanzadorVentanaPrincipal extends Application {
         scene.getStylesheets().add(LocalizadorRecursos.class.getResource("estilos/estilos.css").toExternalForm());
         escenarioPrincipal.setTitle("Hotel Al-Andalus");
         escenarioPrincipal.setScene(scene);
+        escenarioPrincipal.setOnCloseRequest(e->confirmaCierreVentana(escenarioPrincipal,e));
         escenarioPrincipal.show();
     }
 
-    private void confirmarSalida(Stage escenarioPrincipal, WindowEvent e){
-        //todo pendiente crear ventanas y escenas
+    private void confirmaCierreVentana(Stage escenario, WindowEvent e)
+    {
+        if (Dialogos.mostrarDialogoConfirmacion("Hotel Al-Andalus", "Estas seguro que quieres salirte de la aplicacion"))
+        {
+            escenario.close();
+        }
+        else
+            e.consume();
+
     }
 
 }

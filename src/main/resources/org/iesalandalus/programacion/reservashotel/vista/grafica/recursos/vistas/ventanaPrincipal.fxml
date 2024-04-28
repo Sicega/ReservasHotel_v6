@@ -12,17 +12,17 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dddddd;" styleClass="raiz" stylesheets="@../estilos/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaPrincipal">
    <children>
-      <Button layoutX="37.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Huespedes" textFill="WHITE">
+      <Button fx:id="btHuespedesPrincipal" layoutX="37.0" layoutY="324.0" mnemonicParsing="false" onAction="#abrirVentanaHuespedes" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Huespedes" textFill="WHITE">
          <font>
             <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
          </font>
       </Button>
-      <Button layoutX="228.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Habitaciones" textFill="WHITE">
+      <Button fx:id="btHabitacionesPrincipal" layoutX="228.0" layoutY="324.0" mnemonicParsing="false" onAction="#abrirVentanaHabitaciones" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Habitaciones" textFill="WHITE">
          <font>
             <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
          </font>
       </Button>
-      <Button layoutX="439.0" layoutY="324.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Reservas" textFill="WHITE">
+      <Button fx:id="btReservasPrincipal" layoutX="439.0" layoutY="324.0" mnemonicParsing="false" onAction="#abrirVentanaReservas" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Reservas" textFill="WHITE">
          <font>
             <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
          </font>

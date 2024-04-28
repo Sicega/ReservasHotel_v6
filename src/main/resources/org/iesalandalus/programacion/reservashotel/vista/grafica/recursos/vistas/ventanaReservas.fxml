@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.ContextMenu?>
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
@@ -12,55 +11,45 @@
 
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dddddd;" styleClass="raiz" stylesheets="@../estilos/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaReservas">
     <children>
-        <Button layoutX="22.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Agregar" textFill="WHITE">
+        <Button fx:id="btAgregarReservas" layoutX="22.0" layoutY="40.0" mnemonicParsing="false" onAction="#agregarReservas" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Agregar" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <Button layoutX="168.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Borrar" textFill="WHITE">
+        <Button fx:id="btBorrarReservas" layoutX="168.0" layoutY="40.0" mnemonicParsing="false" onAction="#borrarReservas" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Borrar" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <Button layoutX="296.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Check in" textFill="WHITE">
+        <Button fx:id="btCheckIn" layoutX="297.0" layoutY="40.0" mnemonicParsing="false" onAction="#checkInReservas" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Check in" textFill="WHITE">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Button>
-        <Text fill="#333333" layoutX="16.0" layoutY="149.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Listado Reservas:" wrappingWidth="402.67926025390625">
+        <Text fill="#333333" layoutX="16.0" layoutY="133.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Listado Reservas:" wrappingWidth="402.67926025390625">
             <font>
                 <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
             </font>
         </Text>
-        <MenuBar fx:id="mnVentanaPrincipal" prefHeight="26.0" prefWidth="600.0" style="-fx-background-color: lightgray;" stylesheets="@../estilos/estilos.css">
-            <menus>
-                <Menu fx:id="mnArchivoPrincipal" mnemonicParsing="false" onAction="#clickSalirAplicacion" text="Archivo">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Salir" />
-                        <MenuItem mnemonicParsing="false" text="Volver" />
-                    </items>
-                </Menu>
-                <Menu fx:id="mnAcercaDePrincipal" mnemonicParsing="false" text="Acerca de">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="Instituto IES Al-Andalus" />
-                    </items>
-                </Menu>
-            </menus>
-        </MenuBar>
-        <TableView layoutX="16.0" layoutY="173.0" prefHeight="200.0" prefWidth="563.0">
+        <TableView fx:id="tvListadoReservas" layoutX="16.0" layoutY="154.0" prefHeight="237.0" prefWidth="569.0">
             <columns>
-                <TableColumn prefWidth="57.5999755859375" text="Huesped" />
-                <TableColumn minWidth="8.79998779296875" prefWidth="52.7999267578125" text="Habitacion" />
-                <TableColumn prefWidth="45.5999755859375" text="Precio" />
-                <TableColumn prefWidth="85.60003662109375" text="Tipo Habitacion" />
-                <TableColumn prefWidth="66.39996337890625" text="Capacidad" />
-            <TableColumn prefWidth="73.60003662109375" text="Fecha inicio" />
-            <TableColumn prefWidth="58.4000244140625" text="Fecha fin" />
-            <TableColumn prefWidth="58.4000244140625" text="CheckIn" />
-            <TableColumn prefWidth="63.99993896484375" text="CheckOut" />
+                <TableColumn prefWidth="110.39996337890625" text="Dni" />
+                <TableColumn minWidth="8.79998779296875" prefWidth="83.20001220703125" text="Nombre" />
+                <TableColumn prefWidth="108.0" text="Identificador" />
+                <TableColumn prefWidth="111.199951171875" text="Tipo Habitacion" />
+            <TableColumn prefWidth="75.199951171875" text="Fecha inicio" />
+            <TableColumn prefWidth="79.4000244140625" text="Fecha fin" />
             </columns>
+         <contextMenu>
+            <ContextMenu>
+              <items>
+                <MenuItem fx:id="mnInsertarReserva" mnemonicParsing="false" onAction="#insertaReserva" text="Insertar Reserva" />
+                  <MenuItem fx:id="mnEliminaReserva" mnemonicParsing="false" onAction="#eliminaReserva" text="Eliminar Reserva" />
+              </items>
+            </ContextMenu>
+         </contextMenu>
         </TableView>
-      <Button layoutX="445.0" layoutY="56.0" mnemonicParsing="false" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Check out" textFill="WHITE">
+      <Button fx:id="btCheckOut" layoutX="445.0" layoutY="40.0" mnemonicParsing="false" onAction="#checkOutReservas" style="-fx-background-color: navy; -fx-border-color: darkblue; -fx-border-width: 3;" text="Check out" textFill="WHITE">
          <font>
             <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
          </font>
