@@ -7,6 +7,10 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
+
+import javax.naming.OperationNotSupportedException;
 
 public class ControladorVentanaInsertaHuesped {
 
@@ -34,8 +38,14 @@ public class ControladorVentanaInsertaHuesped {
     @FXML
     void aceptar(ActionEvent event) {
 
-        System.out.println(new Huesped(tfNombre.getText(), tfDni.getText(),tfCorreo.getText(),tfTelefono.getText(),dpFechaNacimiento.getValue()));
-
+        try{
+            if(Dialogos.mostrarDialogoConfirmacion("Adventencia insertar huesped","Esta seguro de insertar este huesped")){
+                VistaGrafica.getInstancia().getControlador().insertar(new Huesped(tfNombre.getText(), tfDni.getText(),tfCorreo.getText(),tfTelefono.getText(),dpFechaNacimiento.getValue()));
+                Dialogos.mostrarDialogoInformacion("Confirmacion huesped", "huesped insertado correctamente");
+            }
+        }catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
+            Dialogos.mostrarDialogoError("Error al insertar huesped",e.getMessage());
+        }
     }
 
     @FXML

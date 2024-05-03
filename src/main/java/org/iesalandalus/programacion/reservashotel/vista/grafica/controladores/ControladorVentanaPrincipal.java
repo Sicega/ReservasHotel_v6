@@ -35,6 +35,7 @@ public class ControladorVentanaPrincipal {
     @FXML
     private MenuBar mnVentanaPrincipal;
 
+
     @FXML
     void abrirVentanaHabitaciones(ActionEvent event) {
 
@@ -116,11 +117,7 @@ public class ControladorVentanaPrincipal {
         }
         else
             event.consume();
-
-
     }
-
-
 
 }
 

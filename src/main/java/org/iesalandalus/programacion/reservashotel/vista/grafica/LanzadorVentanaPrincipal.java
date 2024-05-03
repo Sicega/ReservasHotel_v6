@@ -24,15 +24,15 @@ public class LanzadorVentanaPrincipal extends Application {
         scene.getStylesheets().add(LocalizadorRecursos.class.getResource("estilos/estilos.css").toExternalForm());
         escenarioPrincipal.setTitle("Hotel Al-Andalus");
         escenarioPrincipal.setScene(scene);
-        escenarioPrincipal.setOnCloseRequest(e->confirmaCierreVentana(escenarioPrincipal,e));
+        escenarioPrincipal.setOnCloseRequest(e->confirmarSalida(escenarioPrincipal,e));
         escenarioPrincipal.show();
     }
 
-    private void confirmaCierreVentana(Stage escenario, WindowEvent e)
+    private void confirmarSalida(Stage escenarioPrincipal, WindowEvent e)
     {
         if (Dialogos.mostrarDialogoConfirmacion("Hotel Al-Andalus", "Estas seguro que quieres salirte de la aplicacion"))
         {
-            escenario.close();
+            escenarioPrincipal.close();
         }
         else
             e.consume();

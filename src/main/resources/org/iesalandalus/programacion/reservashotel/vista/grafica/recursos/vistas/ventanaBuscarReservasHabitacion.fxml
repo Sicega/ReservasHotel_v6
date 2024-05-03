@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dddddd;" styleClass="raiz" stylesheets="@../estilos/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorBuscarReservaHabitacion">
+    <children>
+        <Text fill="#333333" layoutX="16.0" layoutY="48.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Listado Reservas Habitacion:" wrappingWidth="309.07928466796875">
+            <font>
+                <Font name="HelveticaNeueLTStd-Bd" size="20.0" />
+            </font>
+        </Text>
+        <TableView fx:id="tvListadoReservas" layoutX="15.0" layoutY="75.0" prefHeight="307.0" prefWidth="569.0">
+            <columns>
+                <TableColumn fx:id="tvclDni" prefWidth="110.39996337890625" text="Dni" />
+                <TableColumn fx:id="tvclNombre" minWidth="8.79998779296875" prefWidth="83.20001220703125" text="Nombre" />
+                <TableColumn fx:id="tvclIdentificador" prefWidth="108.0" text="Identificador" />
+                <TableColumn fx:id="tvclTipoHabitacion" prefWidth="111.199951171875" text="Tipo Habitacion" />
+            <TableColumn fx:id="tvclFechaInicio" prefWidth="75.199951171875" text="Fecha inicio" />
+            <TableColumn fx:id="tvclFechaFin" prefWidth="79.4000244140625" text="Fecha fin" />
+            </columns>
+        </TableView>
+      <Label fx:id="lbIdentificadorReservasHabitacion" layoutX="312.0" layoutY="34.0" text="Identificador:" />
+    </children>
+</Pane>

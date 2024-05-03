@@ -9,6 +9,7 @@ import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
+import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -129,7 +130,15 @@ public class ControladorVentanaInsertaReserva {
             numPersonas=4;
         }
 
-        System.out.println(new Reserva(huesped, habitacion, regimen, dpFechaInicio.getValue(),dpFechaFin.getValue(),numPersonas));
+        try{
+            if(Dialogos.mostrarDialogoConfirmacion("Insertar Reserva", "Esta seguro de querer insertar esta reserva")){
+            VistaGrafica.getInstancia().getControlador().insertar(new Reserva(huesped, habitacion, regimen, dpFechaInicio.getValue(),dpFechaFin.getValue(),numPersonas));
+            Dialogos.mostrarDialogoInformacion("Reserva insertada", "Reserva insertada correctamente");
+        }
+
+        }catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
+            Dialogos.mostrarDialogoError("Error al insertar reserva",e.getMessage());
+        }
 
     }
 

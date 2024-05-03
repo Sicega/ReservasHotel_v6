@@ -7,19 +7,17 @@ public class VistaGrafica extends Vista {
 
     private static VistaGrafica instancia;
 
-    public VistaGrafica(){
-
+    private VistaGrafica(){
     }
 
     public static VistaGrafica getInstancia() {
 
         if(instancia == null){
-            return new VistaGrafica();
+            instancia= new VistaGrafica();
         }
 
-        else{
+
             return instancia;
-        }
     }
 
     @Override

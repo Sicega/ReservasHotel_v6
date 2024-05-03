@@ -59,6 +59,18 @@ public class ControladorVentanaHabitaciones {
     @FXML
     void borrarHabitaciones(ActionEvent event) {
 
+        /*if (habitacion!=null &&
+                Dialogos.mostrarDialogoConfirmacion("Hotel Al Andalus - Eliminar Habitacion", "Desea borrar la habitacion seleccionada"))
+        {
+
+            coleccionHabitacion.remove(habitacion);
+            obsHabitaciones.setAll(coleccionHabitacion);
+            Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Habitacion", "Habitacion borrada correctamente");
+        }
+
+        if (habitacion==null)
+            Dialogos.mostrarDialogoAdvertencia("Hotel Al Andalus - Eliminar Habitacion","Debes seleccionar una habitacion para borrarla");*/
+
     }
 
     @FXML
@@ -75,6 +87,8 @@ public class ControladorVentanaHabitaciones {
 
     @FXML
     void eliminaHabitacion(ActionEvent event) {
+
+        borrarHabitaciones(event);
 
     }
 

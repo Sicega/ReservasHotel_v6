@@ -13,6 +13,7 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
 import java.io.IOException;
 
@@ -56,7 +57,7 @@ public class ControladorVentanaReservas {
             Scene escenaVentanaReserva=new Scene(raiz,600,400);
             Stage escenarioVentanaReserva=new Stage();
             escenarioVentanaReserva.setScene(escenaVentanaReserva);
-            escenarioVentanaReserva.setTitle("Hotel Al-Andalus - Insertar Habitacion" );
+            escenarioVentanaReserva.setTitle("Hotel Al-Andalus - Insertar Reserva" );
             escenarioVentanaReserva.initModality(Modality.APPLICATION_MODAL);
             escenarioVentanaReserva.showAndWait();
 
@@ -68,6 +69,18 @@ public class ControladorVentanaReservas {
 
     @FXML
     void borrarReservas(ActionEvent event) {
+
+        /*if (reserva!=null &&
+                Dialogos.mostrarDialogoConfirmacion("Hotel Al Andalus - Eliminar Reserva", "Desea borrar la reserva seleccionada"))
+        {
+
+            coleccionReserva.remove(reserva);
+            obsReserva.setAll(coleccionReserva);
+            Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Reserva", "Reserva borrada correctamente");
+        }
+
+        if (reserva==null)
+            Dialogos.mostrarDialogoAdvertencia("Hotel Al Andalus - Eliminar Reserva","Debes seleccionar una reserva para borrarla");*/
 
     }
 
@@ -83,6 +96,8 @@ public class ControladorVentanaReservas {
 
     @FXML
     void eliminaReserva(ActionEvent event) {
+
+        borrarReservas(event);
 
     }
 

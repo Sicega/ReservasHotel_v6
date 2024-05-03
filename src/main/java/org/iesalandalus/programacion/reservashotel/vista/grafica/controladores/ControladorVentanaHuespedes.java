@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
 import java.io.IOException;
 import java.time.LocalDate;
@@ -67,6 +68,7 @@ public class ControladorVentanaHuespedes {
     {
         System.out.println(coleccionHuesped);
 
+        // coleccionHuesped = VistaGrafica.getInstancia().getControlador().getHuespedes();
         //obsHuesped.setAll(coleccionHuesped);
         System.out.println(obsHuesped);
 
@@ -75,25 +77,21 @@ public class ControladorVentanaHuespedes {
         tcCorreo.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getCorreo()));
         tcTelefono.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getTelefono()));
         tcFechaNacimiento.setCellValueFactory(huesped->new SimpleStringProperty(huesped.getValue().getFechaNacimiento().format(FORMATO_FECHA).toString()));
-        //coleccionHuesped=VistaGrafica.getInstancia().getControlador().getHuespedes();
 
-
-        tvListadoHuespedes.setItems(obsHuesped);
+        // tvListadoHuespedes.setItems(obsHuesped);
 
     }
     @FXML
     private void initialize(){
 
-
         cargaDatosHuesped();
-
 
     }
 
     public void inicializaDatos(ObservableList<Huesped> obs,List<Huesped> tvlistadoHuespedes)
     {
-        obsHuesped=obs;
-        this.coleccionHuesped=coleccionHuesped;
+
+
     }
 
     @FXML
@@ -123,25 +121,38 @@ public class ControladorVentanaHuespedes {
     @FXML
     void borrarHuespedes(ActionEvent event) {
 
+        /*if (huesped!=null &&
+                Dialogos.mostrarDialogoConfirmacion("Hotel Al Andalus - Eliminar Huesped", "Desea borrar el huesped seleccionado"))
+        {
+
+            coleccionHuesped.remove(huesped);
+            obsHuesped.setAll(coleccionHuesped);
+            Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Habitacion", "Huesped borrado correctamente");
+        }
+
+        if (huesped==null)
+            Dialogos.mostrarDialogoAdvertencia("Hotel Al Andalus - Eliminar Habitacion","Debes seleccionar un huesped para borrarlo");*/
+
     }
 
-    @FXML
-    void buscarReservasHuespedes(ActionEvent event) {
+        @FXML
+        void buscarReservasHuespedes (ActionEvent event){
 
-    }
+        }
 
-    @FXML
-    void insertaHuesped(ActionEvent event){
+        @FXML
+        void insertaHuesped (ActionEvent event){
 
             agregarHuespedes(event);
+        }
+
+
+        @FXML
+        void eliminaHuesped (ActionEvent event){
+
+            borrarHuespedes(event);
+
+        }
+
     }
 
-
-    @FXML
-    void eliminaHuesped(ActionEvent event) {
-
-    }
-
-
-
-}

@@ -10,7 +10,10 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import javafx.scene.control.ToggleGroup;
+import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
+
+import javax.naming.OperationNotSupportedException;
 
 public class ControladorVentanaInsertaHabitacion {
 
@@ -128,18 +131,31 @@ public class ControladorVentanaInsertaHabitacion {
 
         try{
         if(cbTipoHabitacion.getSelectionModel().isSelected(0)){
-            System.out.println(new Suite(Integer.parseInt(tfPlanta.getText()), Integer.parseInt(tfPuerta.getText()),Double.parseDouble(tfPrecio.getText()), numBanios, jacuzzi));
+            if(Dialogos.mostrarDialogoConfirmacion("Insertar Habitacion", "Esta seguro de insertar esta habitacion")){
+                VistaGrafica.getInstancia().getControlador().insertar(new Suite(Integer.parseInt(tfPlanta.getText()), Integer.parseInt(tfPuerta.getText()),Double.parseDouble(tfPrecio.getText()), numBanios, jacuzzi));
+                Dialogos.mostrarDialogoInformacion("Habitacion insertada", "Habitacion insertada correctamente");
+            }
         }
         else if (cbTipoHabitacion.getSelectionModel().isSelected(1)) {
-            System.out.println(new Simple(Integer.parseInt(tfPlanta.getText()), Integer.parseInt(tfPuerta.getText()),Double.parseDouble(tfPrecio.getText())));
+            if(Dialogos.mostrarDialogoConfirmacion("Insertar Habitacion", "Esta seguro de insertar esta habitacion")){
+                VistaGrafica.getInstancia().getControlador().insertar(new Simple(Integer.parseInt(tfPlanta.getText()), Integer.parseInt(tfPuerta.getText()),Double.parseDouble(tfPrecio.getText())));
+                Dialogos.mostrarDialogoInformacion("Habitacion insertada", "Habitacion insertada correctamente");
+            }
         }
         else if(cbTipoHabitacion.getSelectionModel().isSelected(2)){
-            System.out.println(new Doble(Integer.parseInt(tfPlanta.getText()),Integer.parseInt(tfPuerta.getText()),Double.parseDouble(tfPrecio.getText()),numCamasInd,numCamasDobles));
+            if(Dialogos.mostrarDialogoConfirmacion("Insertar Habitacion", "Esta seguro de insertar esta habitacion")){
+                VistaGrafica.getInstancia().getControlador().insertar(new Doble(Integer.parseInt(tfPlanta.getText()),Integer.parseInt(tfPuerta.getText()),Double.parseDouble(tfPrecio.getText()),numCamasInd,numCamasDobles));
+                Dialogos.mostrarDialogoInformacion("Habitacion insertada", "Habitacion insertada correctamente");
+            }
         }
         else if (cbTipoHabitacion.getSelectionModel().isSelected(3)){
-            System.out.println(new Triple(Integer.parseInt(tfPlanta.getText()), Integer.parseInt(tfPuerta.getText()), Double.parseDouble(tfPrecio.getText()), numBanios,numCamasInd,numCamasDobles));
-        }}catch (NullPointerException | IllegalArgumentException e){
-            Dialogos.mostrarDialogoError("Error",e.getMessage());
+
+            if(Dialogos.mostrarDialogoConfirmacion("Insertar Habitacion", "Esta seguro de insertar esta habitacion")){
+                VistaGrafica.getInstancia().getControlador().insertar(new Triple(Integer.parseInt(tfPlanta.getText()), Integer.parseInt(tfPuerta.getText()), Double.parseDouble(tfPrecio.getText()), numBanios,numCamasInd,numCamasDobles));
+                Dialogos.mostrarDialogoInformacion("Habitacion insertada", "Habitacion insertada correctamente");
+            }
+        }}catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
+            Dialogos.mostrarDialogoError("Error al insertar habitacion",e.getMessage());
         }
 
     }
