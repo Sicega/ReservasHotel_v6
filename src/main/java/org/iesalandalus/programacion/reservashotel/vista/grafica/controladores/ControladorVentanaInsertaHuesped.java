@@ -46,6 +46,7 @@ public class ControladorVentanaInsertaHuesped {
         }catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
             Dialogos.mostrarDialogoError("Error al insertar huesped",e.getMessage());
         }
+        ((Stage)btnAceptar.getScene().getWindow()).close();
     }
 
     @FXML

@@ -40,7 +40,10 @@ public class ControladorVentanaInsertaReserva {
     private ComboBox<?> cbPersonasReserva;
 
     @FXML
-    private TextField tfIdentificadorReserva;
+    private TextField tfPlanta;
+
+    @FXML
+    private TextField tfPuerta;
 
     @FXML
     private ToggleGroup grupoPersonas;
@@ -72,15 +75,15 @@ public class ControladorVentanaInsertaReserva {
 
         Huesped huesped= VistaGrafica.getInstancia().getControlador().buscar(new Huesped("sdf", tfDniReserva.getText(), "asdf@fdsad.xom", "999223344", LocalDate.of(1999,12,12)));
 
-        Habitacion habitacion= VistaGrafica.getInstancia().getControlador().buscar(new Simple(1, 1, 50));
+        Habitacion habitacion= VistaGrafica.getInstancia().getControlador().buscar(new Simple(Integer.parseInt(tfPlanta.getText()), Integer.parseInt(tfPuerta.getText()), 50));
 
-        TipoHabitacion tipo=null;
+        //TipoHabitacion tipo=null;
 
         Regimen regimen=null;
 
-        int numPersonas=1;
+        int numPersonas=0;
 
-            if(cbTipoHabitacionReserva.getSelectionModel().isSelected(0)){
+            /*if(cbTipoHabitacionReserva.getSelectionModel().isSelected(0)){
                 tipo=TipoHabitacion.SUITE;
             }
             else if (cbTipoHabitacionReserva.getSelectionModel().isSelected(1)) {
@@ -94,7 +97,7 @@ public class ControladorVentanaInsertaReserva {
 
             else if (cbTipoHabitacionReserva.getSelectionModel().isSelected(3)){
                 tipo=TipoHabitacion.TRIPLE;
-            }
+            }*/
 
         if(cbRegimen.getSelectionModel().isSelected(0)){
             regimen=Regimen.SOLO_ALOJAMIENTO;
@@ -132,8 +135,9 @@ public class ControladorVentanaInsertaReserva {
 
         try{
             if(Dialogos.mostrarDialogoConfirmacion("Insertar Reserva", "Esta seguro de querer insertar esta reserva")){
-            VistaGrafica.getInstancia().getControlador().insertar(new Reserva(huesped, habitacion, regimen, dpFechaInicio.getValue(),dpFechaFin.getValue(),numPersonas));
-            Dialogos.mostrarDialogoInformacion("Reserva insertada", "Reserva insertada correctamente");
+                VistaGrafica.getInstancia().getControlador().insertar(new Reserva(huesped, habitacion, regimen, dpFechaInicio.getValue(),dpFechaFin.getValue(),numPersonas));
+                Dialogos.mostrarDialogoInformacion("Reserva insertada", "Reserva insertada correctamente");
+                ((Stage)btnAceptar.getScene().getWindow()).close();
         }
 
         }catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){

@@ -33,14 +33,14 @@
         </Text>
         <TableView fx:id="tvListadoHabitaciones" layoutX="16.0" layoutY="154.0" prefHeight="232.0" prefWidth="570.0">
             <columns>
-                <TableColumn prefWidth="87.20001220703125" text="Identificador" />
-                <TableColumn minWidth="3.199951171875" prefWidth="62.4000244140625" text="Planta" />
-                <TableColumn prefWidth="78.39996337890625" text="Puerta" />
-                <TableColumn prefWidth="59.20001220703125" text="Precio" />
-                <TableColumn prefWidth="98.4000244140625" text="Tipo Habitacion" />
-            <TableColumn prefWidth="60.00006103515625" text="Camas" />
-            <TableColumn prefWidth="57.5999755859375" text="Baño" />
-            <TableColumn prefWidth="62.0" text="Jacuzzi" />
+                <TableColumn fx:id="tcIdentificador" prefWidth="87.20001220703125" text="Identificador" />
+                <TableColumn fx:id="tcPlanta" minWidth="3.199951171875" prefWidth="62.4000244140625" text="Planta" />
+                <TableColumn fx:id="tcPuerta" prefWidth="78.39996337890625" text="Puerta" />
+                <TableColumn fx:id="tcPrecio" prefWidth="59.20001220703125" text="Precio" />
+                <TableColumn fx:id="tcTipoHabitacion" prefWidth="98.4000244140625" text="Tipo Habitacion" />
+            <TableColumn fx:id="tcCamas" prefWidth="60.00006103515625" text="Camas" />
+            <TableColumn fx:id="tcBanio" prefWidth="57.5999755859375" text="Baño" />
+            <TableColumn fx:id="tcJacuzzi" prefWidth="62.0" text="Jacuzzi" />
             </columns>
          <contextMenu>
             <ContextMenu>

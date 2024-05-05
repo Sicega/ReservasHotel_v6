@@ -157,6 +157,8 @@ public class ControladorVentanaInsertaHabitacion {
         }}catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
             Dialogos.mostrarDialogoError("Error al insertar habitacion",e.getMessage());
         }
+        ((Stage)btnAceptar.getScene().getWindow()).close();
+
 
     }
 

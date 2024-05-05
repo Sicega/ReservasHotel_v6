@@ -15,9 +15,9 @@
 <Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #dddddd;" styleClass="raiz" stylesheets="@../estilos/estilos.css" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.iesalandalus.programacion.reservashotel.vista.grafica.controladores.ControladorVentanaInsertaReserva">
    <children>
       <Label layoutX="54.0" layoutY="49.0" text="Dni:" />
-      <Label layoutX="54.0" layoutY="91.0" text="Identificador:" />
+      <Label layoutX="54.0" layoutY="91.0" text="Planta-Puerta:" />
       <TextField fx:id="tfDniReserva" layoutX="147.0" layoutY="45.0" prefHeight="25.0" prefWidth="222.0" />
-      <TextField fx:id="tfIdentificadorReserva" layoutX="146.0" layoutY="86.0" prefHeight="25.0" prefWidth="51.0" />
+      <TextField fx:id="tfPlanta" layoutX="146.0" layoutY="86.0" prefHeight="25.0" prefWidth="51.0" />
       <Label layoutX="54.0" layoutY="130.0" text="Tipo Habitacion:" />
       <HBox alignment="CENTER" layoutX="188.0" layoutY="294.0" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
          <children>
@@ -46,5 +46,6 @@
             <Image url="@../imagenes/logoAlAndalus.png" />
          </image>
       </ImageView>
+      <TextField fx:id="tfPuerta" layoutX="208.0" layoutY="87.0" prefHeight="25.0" prefWidth="51.0" />
    </children>
 </Pane>

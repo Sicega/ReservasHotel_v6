@@ -17,8 +17,9 @@
     <file url="file://$PROJECT_DIR$/src/main/java/org/iesalandalus/programacion/reservashotel/vista/texto/Consola.java" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/java/org/iesalandalus/programacion/reservashotel/vista/texto/Opcion.java" charset="ISO-8859-1" />
     <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/estilos/dialogos.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/vistas/ventanaCheckInReserva.fxml" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/vistas/ventanaCheckOutReserva.fxml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/vistas/ventanaInsertaHabitacion.fxml" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/vistas/ventanaInsertaHuesped.fxml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/vistas/ventanaInsertaHuesped.fxml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/grafica/recursos/vistas/ventanaInsertaReserva.fxml" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/src/main/resources/org/iesalandalus/programacion/reservashotel/vista/vistagrafica/recursos/vistas/hello-view.fxml" charset="UTF-8" />

@@ -13,11 +13,13 @@ import javafx.scene.control.*;
 
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
 
+import javax.naming.OperationNotSupportedException;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -62,23 +64,14 @@ public class ControladorVentanaHuespedes {
     private MenuItem mnInsertarHuesped;
 
     private ObservableList<Huesped> obsHuesped = FXCollections.observableArrayList();
-    private List<Huesped> coleccionHuesped;
+    private List<Huesped> coleccionHuesped=new ArrayList<>();
 
     private void cargaDatosHuesped()
     {
-        System.out.println(coleccionHuesped);
 
-        // coleccionHuesped = VistaGrafica.getInstancia().getControlador().getHuespedes();
-        //obsHuesped.setAll(coleccionHuesped);
-        System.out.println(obsHuesped);
+        coleccionHuesped = VistaGrafica.getInstancia().getControlador().getHuespedes();
+        obsHuesped.setAll(coleccionHuesped);
 
-        tcNombre.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getNombre()));
-        tcDni.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getDni()));
-        tcCorreo.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getCorreo()));
-        tcTelefono.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getTelefono()));
-        tcFechaNacimiento.setCellValueFactory(huesped->new SimpleStringProperty(huesped.getValue().getFechaNacimiento().format(FORMATO_FECHA).toString()));
-
-        // tvListadoHuespedes.setItems(obsHuesped);
 
     }
     @FXML
@@ -86,11 +79,13 @@ public class ControladorVentanaHuespedes {
 
         cargaDatosHuesped();
 
-    }
+        tvListadoHuespedes.setItems(obsHuesped);
 
-    public void inicializaDatos(ObservableList<Huesped> obs,List<Huesped> tvlistadoHuespedes)
-    {
-
+        tcNombre.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getNombre()));
+        tcDni.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getDni()));
+        tcCorreo.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getCorreo()));
+        tcTelefono.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getTelefono()));
+        tcFechaNacimiento.setCellValueFactory(huesped->new SimpleStringProperty(huesped.getValue().getFechaNacimiento().format(FORMATO_FECHA).toString()));
 
     }
 
@@ -102,8 +97,6 @@ public class ControladorVentanaHuespedes {
         {
             Parent raiz=fxmlLoader.load();
 
-            //ControladorVentanaHuespedes controladorVentanaHuesped=fxmlLoader.getController();
-            //controladorVentanaHuesped.inicializaDatos(obsHuesped,coleccionHuesped);
 
             Scene escenaVentanaHuesped=new Scene(raiz,600,400);
             Stage escenarioVentanaHuesped=new Stage();
@@ -111,6 +104,8 @@ public class ControladorVentanaHuespedes {
             escenarioVentanaHuesped.setTitle("Hotel Al-Andalus - Insertar Huesped" );
             escenarioVentanaHuesped.initModality(Modality.APPLICATION_MODAL);
             escenarioVentanaHuesped.showAndWait();
+            cargaDatosHuesped();
+
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -119,19 +114,25 @@ public class ControladorVentanaHuespedes {
     }
 
     @FXML
-    void borrarHuespedes(ActionEvent event) {
+    void borrarHuespedes(ActionEvent event){
 
-        /*if (huesped!=null &&
+        Huesped huesped=tvListadoHuespedes.getSelectionModel().getSelectedItem();
+
+        if (huesped!=null &&
                 Dialogos.mostrarDialogoConfirmacion("Hotel Al Andalus - Eliminar Huesped", "Desea borrar el huesped seleccionado"))
         {
+            try {
+                VistaGrafica.getInstancia().getControlador().borrar(huesped);
+            }catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
+                Dialogos.mostrarDialogoError("Error borrar huesped",e.getMessage());
+            }
 
-            coleccionHuesped.remove(huesped);
-            obsHuesped.setAll(coleccionHuesped);
-            Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Habitacion", "Huesped borrado correctamente");
+            cargaDatosHuesped();
+            Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Huesped", "Huesped borrado correctamente");
         }
 
         if (huesped==null)
-            Dialogos.mostrarDialogoAdvertencia("Hotel Al Andalus - Eliminar Habitacion","Debes seleccionar un huesped para borrarlo");*/
+            Dialogos.mostrarDialogoAdvertencia("Hotel Al Andalus - Eliminar Huesped","Debes seleccionar un huesped para borrarlo");
 
     }
 
