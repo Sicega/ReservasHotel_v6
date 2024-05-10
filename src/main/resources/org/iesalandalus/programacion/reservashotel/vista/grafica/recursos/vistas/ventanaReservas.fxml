@@ -47,6 +47,8 @@
               <items>
                 <MenuItem fx:id="mnInsertarReserva" mnemonicParsing="false" onAction="#insertaReserva" text="Insertar Reserva" />
                   <MenuItem fx:id="mnEliminaReserva" mnemonicParsing="false" onAction="#eliminaReserva" text="Eliminar Reserva" />
+                  <MenuItem fx:id="mnRealizarCheckIn" mnemonicParsing="false" onAction="#realizaCheckIn" text="Realizar Check In" />
+                  <MenuItem fx:id="mnRealizarCheckOut" mnemonicParsing="false" onAction="#realizaCheckOut" text="Realizar Check Out" />
               </items>
             </ContextMenu>
          </contextMenu>

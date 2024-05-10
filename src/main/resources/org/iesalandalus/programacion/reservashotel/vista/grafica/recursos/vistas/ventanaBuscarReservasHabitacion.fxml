@@ -16,12 +16,14 @@
         </Text>
         <TableView fx:id="tvListadoReservas" layoutX="15.0" layoutY="75.0" prefHeight="307.0" prefWidth="569.0">
             <columns>
-                <TableColumn fx:id="tvclDni" prefWidth="110.39996337890625" text="Dni" />
-                <TableColumn fx:id="tvclNombre" minWidth="8.79998779296875" prefWidth="83.20001220703125" text="Nombre" />
-                <TableColumn fx:id="tvclIdentificador" prefWidth="108.0" text="Identificador" />
-                <TableColumn fx:id="tvclTipoHabitacion" prefWidth="111.199951171875" text="Tipo Habitacion" />
-            <TableColumn fx:id="tvclFechaInicio" prefWidth="75.199951171875" text="Fecha inicio" />
-            <TableColumn fx:id="tvclFechaFin" prefWidth="79.4000244140625" text="Fecha fin" />
+                <TableColumn fx:id="tvclDni" prefWidth="63.2000150680542" text="Dni" />
+                <TableColumn fx:id="tvclNombre" minWidth="8.79998779296875" prefWidth="57.5999755859375" text="Nombre" />
+                <TableColumn fx:id="tvclIdentificador" prefWidth="73.60003662109375" text="Identificador" />
+                <TableColumn fx:id="tvclTipoHabitacion" prefWidth="85.59996032714844" text="Tipo Habitacion" />
+            <TableColumn fx:id="tvclFechaInicio" prefWidth="54.4000244140625" text="Fecha inicio" />
+            <TableColumn fx:id="tvclFechaFin" prefWidth="69.60003662109375" text="Fecha fin" />
+            <TableColumn fx:id="tvclPrecio" prefWidth="69.60003662109375" text="Precio" />
+            <TableColumn fx:id="tvclRegimen" prefWidth="90.60003662109375" text="Regimen" />
             </columns>
         </TableView>
       <Label fx:id="lbIdentificadorReservasHabitacion" layoutX="312.0" layoutY="34.0" text="Identificador:" />

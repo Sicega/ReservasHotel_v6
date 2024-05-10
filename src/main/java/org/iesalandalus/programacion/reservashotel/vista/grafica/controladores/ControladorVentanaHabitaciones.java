@@ -2,6 +2,7 @@ package org.iesalandalus.programacion.reservashotel.vista.grafica.controladores;
 
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -12,10 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
-import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
-import org.iesalandalus.programacion.reservashotel.modelo.dominio.Suite;
-import org.iesalandalus.programacion.reservashotel.modelo.dominio.Triple;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
@@ -46,16 +44,19 @@ public class ControladorVentanaHabitaciones {
     private TableView<Habitacion> tvListadoHabitaciones;
 
     @FXML
-    private TableColumn<Habitacion, Integer> tcBanio;
+    private TableColumn<Habitacion, String> tcBanio;
 
     @FXML
-    private TableColumn<Habitacion, Integer> tcCamas;
+    private TableColumn<Habitacion, String> tcCamasDob;
+
+    @FXML
+    private TableColumn<Habitacion, String> tcCamasInd;
 
     @FXML
     private TableColumn<Habitacion, String> tcIdentificador;
 
     @FXML
-    private TableColumn<Habitacion, Boolean> tcJacuzzi;
+    private TableColumn<Habitacion, String> tcJacuzzi;
 
     @FXML
     private TableColumn<Habitacion, String> tcPlanta;
@@ -91,10 +92,59 @@ public class ControladorVentanaHabitaciones {
         tcPlanta.setCellValueFactory(habitacion-> new SimpleStringProperty(Integer.toString(habitacion.getValue().getPlanta())));;
         tcPuerta.setCellValueFactory(habitacion-> new SimpleStringProperty(Integer.toString(habitacion.getValue().getPuerta())));;
         tcPrecio.setCellValueFactory(habitacion-> new SimpleStringProperty(Double.toString(habitacion.getValue().getPrecio())));;
-        //tcCamas.setCellValueFactory(habitacion-> new SimpleStringProperty(habitacion.getValue().getCamas()));;
-        //tcBanio.setCellValueFactory(habitacion-> new SimpleStringProperty(habitacion.getValue().get()));;
-        //tcJacuzzi.setCellValueFactory(habitacion-> new SimpleStringProperty();;
         tcTipoHabitacion.setCellValueFactory(habitacion-> new SimpleStringProperty(habitacion.getValue().getClass().getSimpleName()));;
+
+        tcCamasInd.setCellValueFactory(habitacion -> {
+
+            if(habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Simple")) {
+                return new SimpleStringProperty("1");
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Suite")) {
+                return new SimpleStringProperty("0");
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Doble")) {
+            return new SimpleStringProperty(Integer.toString(((Doble)(habitacion.getValue())).getNumCamasIndividuales()));
+        } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Triple")) {
+                return new SimpleStringProperty(Integer.toString(((Triple)(habitacion.getValue())).getNumCamasIndividuales()));
+
+        }
+        return null;
+        });
+        tcCamasDob.setCellValueFactory(habitacion -> {
+
+            if(habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Simple")) {
+                return new SimpleStringProperty("0");
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Suite")) {
+                return new SimpleStringProperty("2");
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Doble")) {
+                return new SimpleStringProperty(Integer.toString(((Doble)(habitacion.getValue())).getNumCamasDobles()));
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Triple")) {
+                return new SimpleStringProperty(Integer.toString(((Triple)(habitacion.getValue())).getNumCamasDobles()));
+
+            }
+            return null;
+        });
+
+        tcBanio.setCellValueFactory(habitacion -> {
+
+            if(habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Simple")) {
+                return new SimpleStringProperty("0");
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Suite")) {
+                return new SimpleStringProperty(Integer.toString(((Suite)(habitacion.getValue())).getNumBanos()));
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Doble")) {
+                return new SimpleStringProperty("0");
+            } else if (habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Triple")) {
+                return new SimpleStringProperty(Integer.toString(((Triple)(habitacion.getValue())).getNumBanos()));
+
+            }
+            return null;
+        });
+        tcJacuzzi.setCellValueFactory(habitacion-> {
+            if(habitacion.getValue().getClass().getSimpleName().equalsIgnoreCase("Suite")){
+                if(((Suite)(habitacion.getValue())).isTieneJacuzzi()){
+                return new SimpleStringProperty("si");
+                }
+            }
+            return new SimpleStringProperty("no");
+        });
 
         tvListadoHabitaciones.setItems(obsHabitacion);
 
@@ -148,6 +198,35 @@ public class ControladorVentanaHabitaciones {
 
     @FXML
     void buscarReservasHabitaciones(ActionEvent event) {
+
+        Habitacion habitacion=tvListadoHabitaciones.getSelectionModel().getSelectedItem();
+
+
+        if (habitacion==null){
+            event.consume();
+        }else {
+
+            FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaBuscarReservasHabitacion.fxml"));
+            try {
+                Parent raiz = fxmlLoader.load();
+
+                ControladorBuscarReservaHabitacion controladorBuscarReservaHabitacion = fxmlLoader.getController();
+                controladorBuscarReservaHabitacion.preparar(habitacion);
+
+                Scene escenaVentanaHabitacion = new Scene(raiz, 600, 400);
+                Stage escenarioVentanaHabitacion = new Stage();
+                escenarioVentanaHabitacion.setScene(escenaVentanaHabitacion);
+                escenarioVentanaHabitacion.setTitle("Hotel Al-Andalus - Reservas Habitacion");
+                escenarioVentanaHabitacion.initModality(Modality.APPLICATION_MODAL);
+
+                escenarioVentanaHabitacion.showAndWait();
+                cargaDatosHabitacion();
+
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
 
     }
 

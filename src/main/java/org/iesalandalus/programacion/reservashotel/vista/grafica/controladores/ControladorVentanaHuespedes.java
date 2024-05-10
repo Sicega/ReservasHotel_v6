@@ -14,6 +14,7 @@ import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.controlador.Controlador;
+import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
@@ -137,8 +138,37 @@ public class ControladorVentanaHuespedes {
     }
 
         @FXML
-        void buscarReservasHuespedes (ActionEvent event){
+        void buscarReservasHuespedes (ActionEvent event) {
 
+            Huesped huesped = tvListadoHuespedes.getSelectionModel().getSelectedItem();
+
+
+            if (huesped == null) {
+                event.consume();
+            } else {
+
+                FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaBuscarReservasHuesped.fxml"));
+                try {
+                    Parent raiz = fxmlLoader.load();
+
+                    ControladorBuscarReservaHuesped controladorBuscarReservaHuesped = fxmlLoader.getController();
+                    controladorBuscarReservaHuesped.preparar(huesped);
+
+                    Scene escenaVentanaHuesped = new Scene(raiz, 600, 400);
+                    Stage escenarioVentanaHuesped = new Stage();
+                    escenarioVentanaHuesped.setScene(escenaVentanaHuesped);
+                    escenarioVentanaHuesped.setTitle("Hotel Al-Andalus - Reservas Huesped");
+                    escenarioVentanaHuesped.initModality(Modality.APPLICATION_MODAL);
+
+                    escenarioVentanaHuesped.showAndWait();
+                    cargaDatosHuesped();
+
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
         }
 
         @FXML

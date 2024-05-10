@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.recursos.LocalizadorRecursos;
@@ -40,7 +41,7 @@ public class ControladorVentanaPrincipal {
     void abrirVentanaHabitaciones(ActionEvent event) {
 
         FXMLLoader fxmlLoader=new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaHabitaciones.fxml"));
-        ControladorVentanaHabitaciones c=fxmlLoader.getController();
+        ControladorVentanaHabitaciones controladorVentanaHabitaciones=fxmlLoader.getController();
         try {
             Parent raiz=fxmlLoader.load();
 
@@ -49,6 +50,7 @@ public class ControladorVentanaPrincipal {
             escenario.setScene(escena);
             escenario.initModality(Modality.APPLICATION_MODAL);
             escenario.setTitle("Hotel Al-Andalus - Habitaciones");
+           // escenario.getIcons().add(new Image("/recursos/imagenes/iconoAlAndalus.png"));
             escenario.setResizable(false);
             escenario.showAndWait();
 

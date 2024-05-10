@@ -74,6 +74,12 @@ public class ControladorVentanaReservas {
     @FXML
     private TableColumn<Reserva, String> tcRegimen;
 
+    @FXML
+    private MenuItem mnRealizarCheckIn;
+
+    @FXML
+    private MenuItem mnRealizarCheckOut;
+
     private Reserva reserva;
 
     private List<Reserva> coleccionReserva=new ArrayList<>();
@@ -223,6 +229,21 @@ public class ControladorVentanaReservas {
     void insertaReserva(ActionEvent event) {
 
         agregarReservas(event);
+
+    }
+
+
+    @FXML
+    void realizaCheckIn(ActionEvent event) {
+
+        checkInReservas(event);
+
+    }
+
+    @FXML
+    void realizaCheckOut(ActionEvent event) {
+
+        checkOutReservas(event);
 
     }
 

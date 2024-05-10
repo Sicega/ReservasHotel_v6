@@ -37,10 +37,11 @@
                 <TableColumn fx:id="tcPlanta" minWidth="3.199951171875" prefWidth="62.4000244140625" text="Planta" />
                 <TableColumn fx:id="tcPuerta" prefWidth="78.39996337890625" text="Puerta" />
                 <TableColumn fx:id="tcPrecio" prefWidth="59.20001220703125" text="Precio" />
-                <TableColumn fx:id="tcTipoHabitacion" prefWidth="98.4000244140625" text="Tipo Habitacion" />
-            <TableColumn fx:id="tcCamas" prefWidth="60.00006103515625" text="Camas" />
-            <TableColumn fx:id="tcBanio" prefWidth="57.5999755859375" text="Baño" />
-            <TableColumn fx:id="tcJacuzzi" prefWidth="62.0" text="Jacuzzi" />
+                <TableColumn fx:id="tcTipoHabitacion" prefWidth="47.99993896484375" text="Tipo Habitacion" />
+            <TableColumn fx:id="tcCamasInd" prefWidth="52.0" text="Individuales" />
+            <TableColumn fx:id="tcCamasDob" prefWidth="68.0" text="Dobles" />
+            <TableColumn fx:id="tcBanio" minWidth="8.0" prefWidth="49.5999755859375" text="Banio" />
+            <TableColumn fx:id="tcJacuzzi" prefWidth="62.4000244140625" text="Jacuzzi" />
             </columns>
          <contextMenu>
             <ContextMenu>
