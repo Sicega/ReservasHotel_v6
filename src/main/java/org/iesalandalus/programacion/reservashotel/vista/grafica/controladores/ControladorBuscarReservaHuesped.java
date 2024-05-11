@@ -3,10 +3,12 @@ package org.iesalandalus.programacion.reservashotel.vista.grafica.controladores;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.VistaGrafica;
 import org.iesalandalus.programacion.reservashotel.vista.grafica.utilidades.Dialogos;
@@ -20,6 +22,12 @@ public class ControladorBuscarReservaHuesped {
 
     @FXML
     private Label lbDniReservasHuesped;
+    @FXML
+    private Label lbNombreReservasHuesped;
+    @FXML
+    private TextField tfDniHuespedReserva;
+    @FXML
+    private TextField tfNombreHuespedReserva;
 
     @FXML
     private TableView<Reserva> tvListadoReservas;
@@ -53,27 +61,31 @@ public class ControladorBuscarReservaHuesped {
     private List<Reserva> coleccionReserva=new ArrayList<>();
     private ObservableList<Reserva> obsReserva= FXCollections.observableArrayList();
 
-    public void preparar(Huesped huesped){
-        if(huesped==null){
-            throw new NullPointerException("Error: La habitacion no puede ser nula.");
-        }
-        this.huesped=huesped;
+    private FilteredList<Reserva> filtro;
 
-        Dialogos.mostrarDialogoAdvertencia("asdf",this.huesped.toString());
+    public void preparar(Huesped huesped) {
+        if (huesped == null) {
+            throw new NullPointerException("Error: El huésped no puede ser nulo.");
+        }
+        this.huesped = huesped;
+        cargaDatosReserva();
+        System.out.println("huesped preparar " + huesped);
     }
 
     private void cargaDatosReserva()
     {
         coleccionReserva = VistaGrafica.getInstancia().getControlador().getReservas();
         obsReserva.setAll(coleccionReserva);
-        System.out.println(this.huesped);
+        filtro = new FilteredList<>(obsReserva);
+        tvListadoReservas.setItems(filtro);
+        System.out.println("huesped cargaDatos " + huesped);
+
     }
 
     @FXML
     private void initialize(){
 
         cargaDatosReserva();
-        System.out.println(huesped);
 
         tvclIdentificador.setCellValueFactory(reserva-> new SimpleStringProperty(reserva.getValue().getHabitacion().getIdentificador()));;
         tvclDni.setCellValueFactory(reserva-> new SimpleStringProperty(reserva.getValue().getHuesped().getDni()));;
@@ -85,6 +97,27 @@ public class ControladorBuscarReservaHuesped {
         tvclTipoHabitacion.setCellValueFactory(reserva-> new SimpleStringProperty(reserva.getValue().getHabitacion().getClass().getSimpleName()));;
 
         tvListadoReservas.setItems(obsReserva);
+
+        tfDniHuespedReserva.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtro.setPredicate(reserva -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                return reserva.getHuesped().getDni().equals(newValue);
+            });
+        });
+
+        tfNombreHuespedReserva.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtro.setPredicate(reserva -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                return reserva.getHuesped().getNombre().equalsIgnoreCase(newValue);
+            });
+        });
+
+        System.out.println("huesped initialize " + huesped);
+
 
     }
 

@@ -50,7 +50,6 @@ public class ControladorVentanaPrincipal {
             escenario.setScene(escena);
             escenario.initModality(Modality.APPLICATION_MODAL);
             escenario.setTitle("Hotel Al-Andalus - Habitaciones");
-           // escenario.getIcons().add(new Image("/recursos/imagenes/iconoAlAndalus.png"));
             escenario.setResizable(false);
             escenario.showAndWait();
 

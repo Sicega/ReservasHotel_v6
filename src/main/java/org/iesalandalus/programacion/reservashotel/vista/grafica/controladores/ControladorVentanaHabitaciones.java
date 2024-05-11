@@ -5,6 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -70,8 +71,12 @@ public class ControladorVentanaHabitaciones {
     @FXML
     private TableColumn<Habitacion, String> tcTipoHabitacion;
 
+    @FXML
+    private TextField tfIdentificadorHabitacionReserva;
     private List<Habitacion> coleccionHabitacion=new ArrayList<>();
     private ObservableList<Habitacion> obsHabitacion= FXCollections.observableArrayList();
+    private FilteredList<Habitacion> filtro;
+
 
 
     private void cargaDatosHabitacion()
@@ -79,6 +84,9 @@ public class ControladorVentanaHabitaciones {
 
         coleccionHabitacion = VistaGrafica.getInstancia().getControlador().getHabitaciones();
         obsHabitacion.setAll(coleccionHabitacion);
+        filtro = new FilteredList<>(obsHabitacion);
+        tvListadoHabitaciones.setItems(filtro);
+
 
 
     }
@@ -147,6 +155,17 @@ public class ControladorVentanaHabitaciones {
         });
 
         tvListadoHabitaciones.setItems(obsHabitacion);
+
+        tfIdentificadorHabitacionReserva.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtro.setPredicate(habitacion -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                return habitacion.getIdentificador().equals(newValue);
+            });
+        });
+
+        cargaDatosHabitacion();
 
 
     }

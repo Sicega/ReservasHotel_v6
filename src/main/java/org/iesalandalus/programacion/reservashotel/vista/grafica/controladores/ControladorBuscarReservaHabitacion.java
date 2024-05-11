@@ -3,10 +3,12 @@ package org.iesalandalus.programacion.reservashotel.vista.grafica.controladores;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.transformation.FilteredList;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Habitacion;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Regimen;
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Reserva;
@@ -23,6 +25,9 @@ public class ControladorBuscarReservaHabitacion {
 
     @FXML
     private Label lbIdentificadorReservasHabitacion;
+
+    @FXML
+    private TextField tfIdentificadorHabReservas;
 
     @FXML
     private TableView<Reserva> tvListadoReservas;
@@ -56,23 +61,26 @@ public class ControladorBuscarReservaHabitacion {
     private List<Reserva> coleccionReserva=new ArrayList<>();
     private ObservableList<Reserva> obsReserva= FXCollections.observableArrayList();
 
-    private Habitacion habitacionAtrib;
+    private FilteredList<Reserva> filtro;
+
+    private Habitacion habitacion;
 
 
     public void preparar(Habitacion habitacion){
         if(habitacion==null){
             throw new NullPointerException("Error: La habitacion no puede ser nula.");
         }
-        this.habitacionAtrib=habitacion;
+        this.habitacion=habitacion;
+        cargaDatosReserva();
 
-        Dialogos.mostrarDialogoAdvertencia("asdf",this.habitacionAtrib.toString());
     }
 
     private void cargaDatosReserva()
     {
-        System.out.println(habitacionAtrib);
         coleccionReserva = VistaGrafica.getInstancia().getControlador().getReservas();
         obsReserva.setAll(coleccionReserva);
+        filtro = new FilteredList<>(obsReserva);
+        tvListadoReservas.setItems(filtro);
     }
 
     @FXML
@@ -90,6 +98,15 @@ public class ControladorBuscarReservaHabitacion {
         tvclTipoHabitacion.setCellValueFactory(reserva-> new SimpleStringProperty(reserva.getValue().getHabitacion().getClass().getSimpleName()));;
 
         tvListadoReservas.setItems(obsReserva);
+
+        tfIdentificadorHabReservas.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtro.setPredicate(reserva -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                return reserva.getHabitacion().getIdentificador().equals(newValue);
+            });
+        });
 
     }
 
