@@ -103,7 +103,7 @@ public class ControladorBuscarReservaHuesped {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                return reserva.getHuesped().getDni().equals(newValue);
+                return reserva.getHuesped().getDni().equalsIgnoreCase(newValue);
             });
         });
 

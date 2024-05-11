@@ -50,11 +50,17 @@
             </ContextMenu>
          </contextMenu>
       </TableView>
-      <Label layoutX="369.0" layoutY="124.0" text="Nombre:">
+      <Label layoutX="217.0" layoutY="124.0" text="Nombre:">
          <font>
             <Font name="HelveticaNeueLTStd-Bd" size="12.0" />
          </font>
       </Label>
-      <TextField fx:id="tfBuscarNombre" layoutX="430.0" layoutY="120.0" promptText="Introduzca huesped" />
+      <TextField fx:id="tfBuscarNombre" layoutX="273.0" layoutY="120.0" promptText="Introduzca huesped" />
+      <Label layoutX="433.0" layoutY="124.0" text="Dni:">
+         <font>
+            <Font name="HelveticaNeueLTStd-Bd" size="12.0" />
+         </font>
+      </Label>
+      <TextField fx:id="tfBuscarDni" layoutX="463.0" layoutY="120.0" prefHeight="25.0" prefWidth="116.0" promptText="Introduzca Dni" />
     </children>
 </Pane>

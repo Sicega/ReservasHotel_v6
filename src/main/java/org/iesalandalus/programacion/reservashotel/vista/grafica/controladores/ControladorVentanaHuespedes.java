@@ -67,6 +67,8 @@ public class ControladorVentanaHuespedes {
     private MenuItem mnInsertarHuesped;
     @FXML
     private TextField tfBuscarNombre;
+    @FXML
+    private TextField tfBuscarDni;
     private FilteredList<Huesped> filtro;
 
     private ObservableList<Huesped> obsHuesped = FXCollections.observableArrayList();
@@ -101,6 +103,15 @@ public class ControladorVentanaHuespedes {
                     return true;
                 }
                 return huesped.getNombre().equalsIgnoreCase(newValue);
+            });
+        });
+
+        tfBuscarDni.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtro.setPredicate(huesped -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                return huesped.getDni().equalsIgnoreCase(newValue);
             });
         });
 
