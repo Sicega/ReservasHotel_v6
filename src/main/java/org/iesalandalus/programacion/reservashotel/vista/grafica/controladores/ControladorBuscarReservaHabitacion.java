@@ -77,10 +77,11 @@ public class ControladorBuscarReservaHabitacion {
 
     private void cargaDatosReserva()
     {
-        coleccionReserva = VistaGrafica.getInstancia().getControlador().getReservas();
+        if(habitacion!=null){
+        coleccionReserva = VistaGrafica.getInstancia().getControlador().getReservas(habitacion);
         obsReserva.setAll(coleccionReserva);
         filtro = new FilteredList<>(obsReserva);
-        tvListadoReservas.setItems(filtro);
+        tvListadoReservas.setItems(filtro);}
     }
 
     @FXML

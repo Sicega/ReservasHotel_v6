@@ -223,6 +223,7 @@ public class ControladorVentanaHabitaciones {
 
         if (habitacion==null){
             event.consume();
+            Dialogos.mostrarDialogoAdvertencia("Reservas habitacion","Debe seleccionar una habitacion.");
         }else {
 
             FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaBuscarReservasHabitacion.fxml"));
@@ -239,7 +240,6 @@ public class ControladorVentanaHabitaciones {
                 escenarioVentanaHabitacion.initModality(Modality.APPLICATION_MODAL);
 
                 escenarioVentanaHabitacion.showAndWait();
-                cargaDatosHabitacion();
 
 
             } catch (IOException e) {
