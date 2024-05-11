@@ -63,22 +63,22 @@ public class ControladorBuscarReservaHuesped {
 
     private FilteredList<Reserva> filtro;
 
+
     public void preparar(Huesped huesped) {
         if (huesped == null) {
             throw new NullPointerException("Error: El huésped no puede ser nulo.");
         }
         this.huesped = huesped;
         cargaDatosReserva();
-        System.out.println("huesped preparar " + huesped);
     }
 
     private void cargaDatosReserva()
     {
-        coleccionReserva = VistaGrafica.getInstancia().getControlador().getReservas();
+        if(huesped !=null){
+        coleccionReserva = VistaGrafica.getInstancia().getControlador().getReservas(huesped);
         obsReserva.setAll(coleccionReserva);
         filtro = new FilteredList<>(obsReserva);
-        tvListadoReservas.setItems(filtro);
-        System.out.println("huesped cargaDatos " + huesped);
+        tvListadoReservas.setItems(filtro);}
 
     }
 
@@ -115,9 +115,6 @@ public class ControladorBuscarReservaHuesped {
                 return reserva.getHuesped().getNombre().equalsIgnoreCase(newValue);
             });
         });
-
-        System.out.println("huesped initialize " + huesped);
-
 
     }
 

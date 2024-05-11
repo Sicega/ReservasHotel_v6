@@ -172,11 +172,13 @@ public class ControladorVentanaHuespedes {
         System.out.println("huesped seleccionado " + huesped);
         if (huesped == null) {
             event.consume();
+            Dialogos.mostrarDialogoAdvertencia("Reservas huesped","Debe seleccionar un huesped.");
         } else {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaBuscarReservasHuesped.fxml"));
                 Parent raiz = fxmlLoader.load();
                 ControladorBuscarReservaHuesped controladorBuscarReservaHuesped = fxmlLoader.getController();
+
                 controladorBuscarReservaHuesped.preparar(huesped);
 
                 Scene escenaVentanaHuesped = new Scene(raiz, 600, 400);
@@ -184,8 +186,8 @@ public class ControladorVentanaHuespedes {
                 escenarioVentanaHuesped.setScene(escenaVentanaHuesped);
                 escenarioVentanaHuesped.setTitle("Hotel Al-Andalus - Reservas Huesped");
                 escenarioVentanaHuesped.initModality(Modality.APPLICATION_MODAL);
-
                 escenarioVentanaHuesped.showAndWait();
+
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
