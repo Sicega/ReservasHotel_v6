@@ -162,8 +162,9 @@ public class ControladorVentanaReservas {
     void checkInReservas(ActionEvent event) {
 
         reserva=tvListadoReservas.getSelectionModel().getSelectedItem();
-        if (reserva==null)
+        if (reserva==null){
             event.consume();
+            Dialogos.mostrarDialogoAdvertencia("Hotel Al Andalus - Check in Reserva","Debes seleccionar una reserva para realizar el Check in");}
         else {
             FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaCheckInReserva.fxml"));
 
@@ -193,8 +194,9 @@ public class ControladorVentanaReservas {
     void checkOutReservas(ActionEvent event) {
 
         reserva=tvListadoReservas.getSelectionModel().getSelectedItem();
-        if (reserva==null)
+        if (reserva==null){
             event.consume();
+            Dialogos.mostrarDialogoAdvertencia("Hotel Al Andalus - Check Out Reserva","Debes seleccionar una reserva para realizar el Check Out");}
         else {
             FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaCheckOutReserva.fxml"));
 

@@ -42,7 +42,7 @@ public class ControladorVentanaCheckOut {
     @FXML
     void aceptar(ActionEvent event) {
 
-        if(Dialogos.mostrarDialogoConfirmacion("Realizar Check In","Esta seguro de realizar el check In")){
+        if(Dialogos.mostrarDialogoConfirmacion("Realizar Check Out","Esta seguro de realizar el check Out")){
             try{
 
                 LocalDateTime fechaHora = LocalDateTime.of(dpFechaCheckOut.getValue(), LocalTime.parse(tfHoraCheckOut.getText()));

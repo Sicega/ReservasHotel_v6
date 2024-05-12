@@ -172,7 +172,7 @@ public class ControladorVentanaHuespedes {
         System.out.println("huesped seleccionado " + huesped);
         if (huesped == null) {
             event.consume();
-            Dialogos.mostrarDialogoAdvertencia("Reservas huesped","Debe seleccionar un huesped.");
+            Dialogos.mostrarDialogoAdvertencia("Reservas huesped","Debes seleccionar un huesped.");
         } else {
             try {
                 FXMLLoader fxmlLoader = new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaBuscarReservasHuesped.fxml"));
