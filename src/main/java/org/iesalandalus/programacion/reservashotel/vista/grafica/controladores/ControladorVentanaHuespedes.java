@@ -65,11 +65,6 @@ public class ControladorVentanaHuespedes {
 
     @FXML
     private MenuItem mnInsertarHuesped;
-    @FXML
-    private TextField tfBuscarNombre;
-    @FXML
-    private TextField tfBuscarDni;
-    private FilteredList<Huesped> filtro;
 
     private ObservableList<Huesped> obsHuesped = FXCollections.observableArrayList();
     private List<Huesped> coleccionHuesped=new ArrayList<>();
@@ -79,8 +74,6 @@ public class ControladorVentanaHuespedes {
 
         coleccionHuesped = VistaGrafica.getInstancia().getControlador().getHuespedes();
         obsHuesped.setAll(coleccionHuesped);
-        filtro = new FilteredList<>(obsHuesped);
-        tvListadoHuespedes.setItems(filtro);
 
 
     }
@@ -96,26 +89,6 @@ public class ControladorVentanaHuespedes {
         tcCorreo.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getCorreo()));
         tcTelefono.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getTelefono()));
         tcFechaNacimiento.setCellValueFactory(huesped->new SimpleStringProperty(huesped.getValue().getFechaNacimiento().format(FORMATO_FECHA).toString()));
-
-        tfBuscarNombre.textProperty().addListener((observable, oldValue, newValue) -> {
-            filtro.setPredicate(huesped -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                return huesped.getNombre().equalsIgnoreCase(newValue);
-            });
-        });
-
-        tfBuscarDni.textProperty().addListener((observable, oldValue, newValue) -> {
-            filtro.setPredicate(huesped -> {
-                if (newValue == null || newValue.isEmpty()) {
-                    return true;
-                }
-                return huesped.getDni().equalsIgnoreCase(newValue);
-            });
-        });
-
-        cargaDatosHuesped();
 
     }
 
@@ -153,12 +126,13 @@ public class ControladorVentanaHuespedes {
         {
             try {
                 VistaGrafica.getInstancia().getControlador().borrar(huesped);
+                Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Huesped", "Huesped borrado correctamente");
             }catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
                 Dialogos.mostrarDialogoError("Error borrar huesped",e.getMessage());
             }
 
             cargaDatosHuesped();
-            Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Huesped", "Huesped borrado correctamente");
+
         }
 
         if (huesped==null)
@@ -169,7 +143,6 @@ public class ControladorVentanaHuespedes {
     @FXML
     void buscarReservasHuespedes(ActionEvent event) {
         Huesped huesped = tvListadoHuespedes.getSelectionModel().getSelectedItem();
-        System.out.println("huesped seleccionado " + huesped);
         if (huesped == null) {
             event.consume();
             Dialogos.mostrarDialogoAdvertencia("Reservas huesped","Debes seleccionar un huesped.");

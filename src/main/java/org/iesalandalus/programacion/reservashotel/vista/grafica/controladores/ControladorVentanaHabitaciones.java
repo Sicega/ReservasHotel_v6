@@ -161,7 +161,7 @@ public class ControladorVentanaHabitaciones {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                return habitacion.getIdentificador().equals(newValue);
+                return habitacion.getIdentificador().contains(newValue);
             });
         });
 
@@ -203,11 +203,12 @@ public class ControladorVentanaHabitaciones {
 
             try {
                 VistaGrafica.getInstancia().getControlador().borrar(habitacion);
+                Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Habitacion", "Habitacion borrada correctamente");
             }catch (NullPointerException | IllegalArgumentException | OperationNotSupportedException e){
                 Dialogos.mostrarDialogoError("Error borrar habitacion",e.getMessage());
             }
             cargaDatosHabitacion();
-            Dialogos.mostrarDialogoInformacion("Hotel Al Andalus - Eliminar Habitacion", "Habitacion borrada correctamente");
+
         }
 
         if (habitacion==null)
