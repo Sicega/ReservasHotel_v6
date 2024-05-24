@@ -50,7 +50,7 @@ public class UtilidadesXML {
         }
     }
 
-    // Metodo para crear un DOM vacio con un elemento raiz
+    // Metodo para crear DOM vacio con un elemento raiz
 
     public static Document crearDomVacio(String etiquetaRaiz) throws ParserConfigurationException {
         DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
