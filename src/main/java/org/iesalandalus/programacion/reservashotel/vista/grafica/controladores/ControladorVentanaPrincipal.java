@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.image.Image;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -35,6 +36,32 @@ public class ControladorVentanaPrincipal {
 
     @FXML
     private MenuBar mnVentanaPrincipal;
+    @FXML
+    private MenuItem mnInstituto;
+
+    @FXML
+    void abrirAcercaDe(ActionEvent event) {
+
+        FXMLLoader fxmlLoader=new FXMLLoader(LocalizadorRecursos.class.getResource("vistas/ventanaAcercaDe.fxml"));
+        ControladorVentanaAcercaDe c=fxmlLoader.getController();
+        try {
+            Parent raiz=fxmlLoader.load();
+
+            Scene escena=new Scene(raiz,600,400);
+            Stage escenario=new Stage();
+            escenario.setScene(escena);
+            escenario.initModality(Modality.APPLICATION_MODAL);
+            escenario.setTitle("Hotel Al-Andalus - Acerca de");
+            escenario.setResizable(false);
+            escenario.showAndWait();
+
+        }
+        catch (IOException e)
+        {
+            System.out.println(e.getMessage());
+        }
+
+    }
 
 
     @FXML

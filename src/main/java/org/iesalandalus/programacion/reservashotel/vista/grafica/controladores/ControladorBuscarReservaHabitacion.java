@@ -105,7 +105,7 @@ public class ControladorBuscarReservaHabitacion {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                return reserva.getHabitacion().getIdentificador().equals(newValue);
+                return reserva.getHabitacion().getIdentificador().contains(newValue);
             });
         });
 

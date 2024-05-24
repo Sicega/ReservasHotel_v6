@@ -103,7 +103,7 @@ public class ControladorBuscarReservaHuesped {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                return reserva.getHuesped().getDni().equalsIgnoreCase(newValue);
+                return reserva.getHuesped().getDni().contains(newValue);
             });
         });
 
@@ -112,7 +112,7 @@ public class ControladorBuscarReservaHuesped {
                 if (newValue == null || newValue.isEmpty()) {
                     return true;
                 }
-                return reserva.getHuesped().getNombre().equalsIgnoreCase(newValue);
+                return reserva.getHuesped().getNombre().contains(newValue);
             });
         });
 

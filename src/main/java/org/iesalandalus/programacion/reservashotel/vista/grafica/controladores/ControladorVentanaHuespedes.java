@@ -41,6 +41,11 @@ public class ControladorVentanaHuespedes {
 
     @FXML
     private Button btBuscarReservasHuespedes;
+    @FXML
+    private TextField tfDniHuespedReserva;
+
+    @FXML
+    private TextField tfNombreHuespedReserva;
 
     @FXML
     private TableView<Huesped> tvListadoHuespedes;
@@ -68,12 +73,15 @@ public class ControladorVentanaHuespedes {
 
     private ObservableList<Huesped> obsHuesped = FXCollections.observableArrayList();
     private List<Huesped> coleccionHuesped=new ArrayList<>();
+    private FilteredList<Huesped> filtro;
 
     private void cargaDatosHuesped()
     {
 
         coleccionHuesped = VistaGrafica.getInstancia().getControlador().getHuespedes();
         obsHuesped.setAll(coleccionHuesped);
+        filtro = new FilteredList<>(obsHuesped);
+        tvListadoHuespedes.setItems(filtro);
 
 
     }
@@ -89,6 +97,26 @@ public class ControladorVentanaHuespedes {
         tcCorreo.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getCorreo()));
         tcTelefono.setCellValueFactory(huesped-> new SimpleStringProperty(huesped.getValue().getTelefono()));
         tcFechaNacimiento.setCellValueFactory(huesped->new SimpleStringProperty(huesped.getValue().getFechaNacimiento().format(FORMATO_FECHA).toString()));
+
+        tfDniHuespedReserva.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtro.setPredicate(huesped -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                return huesped.getDni().contains(newValue);
+            });
+        });
+
+        tfNombreHuespedReserva.textProperty().addListener((observable, oldValue, newValue) -> {
+            filtro.setPredicate(huesped -> {
+                if (newValue == null || newValue.isEmpty()) {
+                    return true;
+                }
+                return huesped.getNombre().contains(newValue);
+            });
+        });
+
+        cargaDatosHuesped();
 
     }
 
