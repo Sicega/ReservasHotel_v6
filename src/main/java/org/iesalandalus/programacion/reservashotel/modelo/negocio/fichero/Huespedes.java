@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.reservashotel.vista.fichero;
+package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero;
 
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
@@ -130,7 +130,7 @@ public class Huespedes implements IHuespedes {
                 coleccionHuespedes.add(huesped);
             }
         } catch (ParserConfigurationException | SAXException | IOException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 
@@ -183,7 +183,7 @@ public class Huespedes implements IHuespedes {
 
             transformer.transform(source, result);
         } catch (ParserConfigurationException | TransformerException e) {
-            e.printStackTrace();
+            e.getMessage();
         }
     }
 }
