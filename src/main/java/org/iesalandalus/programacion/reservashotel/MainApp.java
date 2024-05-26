@@ -36,6 +36,8 @@ public class MainApp {
             modelo = new Modelo(FactoriaFuenteDatos.MEMORIA);
         } else if (args[0].equalsIgnoreCase("-fdmongodb")) {
             modelo = new Modelo(FactoriaFuenteDatos.MONGODB);
+        }else if (args[0].equalsIgnoreCase("-fdfichero")) {
+            modelo = new Modelo(FactoriaFuenteDatos.FICHERO);
         }
             return modelo;
     }
