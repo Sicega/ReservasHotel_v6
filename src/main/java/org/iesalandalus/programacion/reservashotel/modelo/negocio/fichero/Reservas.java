@@ -2,7 +2,6 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero;
 
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IReservas;
-
 import javax.naming.OperationNotSupportedException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -12,18 +11,9 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.IOException;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero.utilidades.UtilidadesXML;
 
 public class Reservas implements IReservas {
 
@@ -258,10 +248,8 @@ public class Reservas implements IReservas {
     }
 
     private void leerXML() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document documento = builder.parse(new File(RUTA_FICHERO));
+            Document documento = UtilidadesXML.xmlToDom(RUTA_FICHERO);
             NodeList listaReservas = documento.getElementsByTagName(RESERVA);
             for (int i = 0; i < listaReservas.getLength(); i++) {
                 Element elementoReserva = (Element) listaReservas.item(i);
@@ -270,7 +258,7 @@ public class Reservas implements IReservas {
                     coleccionReservas.add(reserva);
                 }
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (Exception e) {
             e.getMessage();
         }
     }
@@ -279,15 +267,15 @@ public class Reservas implements IReservas {
         Element elementoReserva = doc.createElement(RESERVA);
 
         Element dni = doc.createElement(DNI_HUESPED);
-        dni.setTextContent(reserva.getHuesped().getDni());
+        dni.setAttribute(DNI_HUESPED,reserva.getHuesped().getDni());
         elementoReserva.appendChild(dni);
 
         Element planta = doc.createElement(PLANTA_HABITACION);
-        planta.setTextContent(String.valueOf(reserva.getHabitacion().getPlanta()));
+        planta.setAttribute(PLANTA_HABITACION,String.valueOf(reserva.getHabitacion().getPlanta()));
         elementoReserva.appendChild(planta);
 
         Element puerta = doc.createElement(PUERTA_HABITACION);
-        puerta.setTextContent(String.valueOf(reserva.getHabitacion().getPuerta()));
+        puerta.setAttribute(PUERTA_HABITACION,String.valueOf(reserva.getHabitacion().getPuerta()));
         elementoReserva.appendChild(puerta);
 
         Element fechaInicio = doc.createElement(FECHA_INICIO_RESERVA);
@@ -326,28 +314,20 @@ public class Reservas implements IReservas {
     }
 
     private void escribirXML() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document documento = builder.newDocument();
-
-            Element raiz = documento.createElement(RAIZ);
-            documento.appendChild(raiz);
+            Document documento = UtilidadesXML.crearDomVacio(RAIZ);
+            Element raiz = documento.getDocumentElement();
 
             for (Reserva reserva : coleccionReservas) {
                 Element elementoReserva = reservaToElement(documento, reserva);
                 raiz.appendChild(elementoReserva);
             }
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(documento);
-            StreamResult result = new StreamResult(new File(RUTA_FICHERO));
-
-            transformer.transform(source, result);
+            UtilidadesXML.domToXml(documento, RUTA_FICHERO);
         } catch (ParserConfigurationException | TransformerException e) {
             e.getMessage();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

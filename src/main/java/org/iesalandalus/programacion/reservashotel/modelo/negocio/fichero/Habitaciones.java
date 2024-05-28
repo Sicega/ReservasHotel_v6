@@ -2,25 +2,15 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero;
 
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.*;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHabitaciones;
-
 import javax.naming.OperationNotSupportedException;
 import java.util.ArrayList;
 import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.IOException;
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero.utilidades.UtilidadesXML;
 
 public class Habitaciones implements IHabitaciones {
 
@@ -159,7 +149,8 @@ public class Habitaciones implements IHabitaciones {
     }
 
     private Habitacion elementToHabitacion(Element elemento) {
-        String identificador = elemento.getElementsByTagName(IDENTIFICADOR).item(0).getTextContent();
+        String identificador = elemento.getAttribute(IDENTIFICADOR);
+        String tipo = elemento.getAttribute(TIPO);
         int planta = Integer.parseInt(elemento.getElementsByTagName(PLANTA).item(0).getTextContent());
         int puerta = Integer.parseInt(elemento.getElementsByTagName(PUERTA).item(0).getTextContent());
         double precio = Double.parseDouble(elemento.getElementsByTagName(PRECIO).item(0).getTextContent());
@@ -167,7 +158,7 @@ public class Habitaciones implements IHabitaciones {
         int camasDobles = Integer.parseInt(elemento.getElementsByTagName(CAMAS_DOBLES).item(0).getTextContent());
         int banos = Integer.parseInt(elemento.getElementsByTagName(BANOS).item(0).getTextContent());
         boolean jacuzzi = Boolean.parseBoolean(elemento.getElementsByTagName(JACUZZI).item(0).getTextContent());
-        String tipo = elemento.getElementsByTagName(TIPO).item(0).getTextContent();
+
 
         switch (tipo) {
             case SIMPLE:
@@ -184,19 +175,15 @@ public class Habitaciones implements IHabitaciones {
     }
 
     private void leerXML() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document documento = builder.parse(new File(RUTA_FICHERO));
-            documento.getDocumentElement().normalize();
-
+            Document documento = UtilidadesXML.xmlToDom(RUTA_FICHERO);
             NodeList listaHabitaciones = documento.getElementsByTagName(HABITACION);
             for (int i = 0; i < listaHabitaciones.getLength(); i++) {
                 Element elemento = (Element) listaHabitaciones.item(i);
                 Habitacion habitacion = elementToHabitacion(elemento);
                 coleccionHabitaciones.add(habitacion);
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (Exception e) {
             e.getMessage();
         }
     }
@@ -266,28 +253,20 @@ public class Habitaciones implements IHabitaciones {
 
 
     private void escribirXML() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document documento = builder.newDocument();
-
-            Element raiz = documento.createElement(RAIZ);
-            documento.appendChild(raiz);
+            Document documento = UtilidadesXML.crearDomVacio(RAIZ);
+            Element raiz = documento.getDocumentElement();
 
             for (Habitacion habitacion : coleccionHabitaciones) {
                 Element elementoHabitacion = habitacionToElement(documento, habitacion);
                 raiz.appendChild(elementoHabitacion);
             }
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            DOMSource source = new DOMSource(documento);
-            StreamResult result = new StreamResult(new File(RUTA_FICHERO));
-
-            transformer.transform(source, result);
+            UtilidadesXML.domToXml(documento, RUTA_FICHERO);
         } catch (ParserConfigurationException | TransformerException e) {
             e.getMessage();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }

@@ -1,4 +1,4 @@
-package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero;
+package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero.utilidades;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;

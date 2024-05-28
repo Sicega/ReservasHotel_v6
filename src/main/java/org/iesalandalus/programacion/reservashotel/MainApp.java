@@ -5,7 +5,6 @@ import org.iesalandalus.programacion.reservashotel.modelo.FactoriaFuenteDatos;
 import org.iesalandalus.programacion.reservashotel.modelo.Modelo;
 import org.iesalandalus.programacion.reservashotel.vista.FactoriaVista;
 import org.iesalandalus.programacion.reservashotel.vista.Vista;
-import org.iesalandalus.programacion.reservashotel.vista.texto.VistaTexto;
 
 public class MainApp {
 
@@ -21,16 +20,17 @@ public class MainApp {
 
         controlador.comenzar();
         controlador.terminar();
-
     }
+
+    // Agrego -fdfichero
 
     public static Modelo procesarArgumentosFuenteDatos(String[] args) {
 
         Modelo modelo = null;
 
         if (args.length == 0 || args.length == 1) {
-            System.out.println("No ha escogido un modelo, se pondrá por defecto -fdmongodb.");
-            modelo = new Modelo(FactoriaFuenteDatos.MONGODB);
+            System.out.println("No ha escogido un modelo, se pondrá por defecto -fdfichero.");
+                modelo = new Modelo(FactoriaFuenteDatos.FICHERO);
 
         } else if (args[0].equalsIgnoreCase("-fdmemoria")) {
             modelo = new Modelo(FactoriaFuenteDatos.MEMORIA);

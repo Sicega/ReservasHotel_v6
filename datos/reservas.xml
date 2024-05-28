@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Reservas>
+  <Reserva>
+    <Dni Dni="11111111H"/>
+    <Planta Planta="1"/>
+    <Puerta Puerta="1"/>
+    <FechaInicioReserva>07/08/2024</FechaInicioReserva>
+    <FechaFinReserva>08/08/2024</FechaFinReserva>
+    <Regimen>0 .- Solo Alojamiento</Regimen>
+    <Personas>1</Personas>
+    <Precio>50.0</Precio>
+  </Reserva>
+</Reservas>

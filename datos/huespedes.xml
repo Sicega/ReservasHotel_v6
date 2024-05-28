@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Huespedes>
+  <Huesped>
+    <Nombre>Silvia</Nombre>
+    <Dni>11111111H</Dni>
+    <Correo>s@gmail.com</Correo>
+    <Telefono>666666666</Telefono>
+    <FechaNacimiento>09/05/2003</FechaNacimiento>
+  </Huesped>
+</Huespedes>

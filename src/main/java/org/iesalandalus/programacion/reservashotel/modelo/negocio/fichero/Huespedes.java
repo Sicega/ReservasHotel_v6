@@ -2,7 +2,7 @@ package org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero;
 
 import org.iesalandalus.programacion.reservashotel.modelo.dominio.Huesped;
 import org.iesalandalus.programacion.reservashotel.modelo.negocio.IHuespedes;
-
+import org.iesalandalus.programacion.reservashotel.modelo.negocio.fichero.utilidades.UtilidadesXML;
 import javax.naming.OperationNotSupportedException;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -10,18 +10,8 @@ import java.util.List;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.OutputKeys;
-import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.File;
-import java.io.IOException;
 import java.time.LocalDate;
 
 public class Huespedes implements IHuespedes {
@@ -40,6 +30,7 @@ public class Huespedes implements IHuespedes {
     private static Huespedes instancia;
 
     private Huespedes() {
+
         coleccionHuespedes = new ArrayList<>();
     }
 
@@ -109,7 +100,7 @@ public class Huespedes implements IHuespedes {
 
     private Huesped elementToHuesped(Element elemento) {
         String nombre = elemento.getElementsByTagName(NOMBRE).item(0).getTextContent();
-        String dni = elemento.getElementsByTagName(DNI).item(0).getTextContent();
+        String dni = elemento.getAttribute(DNI);
         String correo = elemento.getElementsByTagName(CORREO).item(0).getTextContent();
         String telefono = elemento.getElementsByTagName(TELEFONO).item(0).getTextContent();
         LocalDate fechaNacimiento = LocalDate.parse(elemento.getElementsByTagName(FECHA_NACIMIENTO).item(0).getTextContent(), FORMATO_FECHA);
@@ -117,19 +108,15 @@ public class Huespedes implements IHuespedes {
     }
 
     private void leerXML() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document documento = builder.parse(new File(RUTA_FICHERO));
-            documento.getDocumentElement().normalize();
-
+            Document documento = UtilidadesXML.xmlToDom(RUTA_FICHERO);
             NodeList listaHuespedes = documento.getElementsByTagName(HUESPED);
             for (int i = 0; i < listaHuespedes.getLength(); i++) {
                 Element elemento = (Element) listaHuespedes.item(i);
                 Huesped huesped = elementToHuesped(elemento);
                 coleccionHuespedes.add(huesped);
             }
-        } catch (ParserConfigurationException | SAXException | IOException e) {
+        } catch (Exception e) {
             e.getMessage();
         }
     }
@@ -161,29 +148,20 @@ public class Huespedes implements IHuespedes {
     }
 
     private void escribirXML() {
-        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
         try {
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            Document documento = builder.newDocument();
-            Element raiz = documento.createElement(RAIZ);
-            documento.appendChild(raiz);
+            Document documento = UtilidadesXML.crearDomVacio(RAIZ);
+            Element raiz = documento.getDocumentElement();
 
             for (Huesped huesped : coleccionHuespedes) {
                 Element elementoHuesped = huespedToElement(documento, huesped);
                 raiz.appendChild(elementoHuesped);
             }
 
-            TransformerFactory transformerFactory = TransformerFactory.newInstance();
-            Transformer transformer = transformerFactory.newTransformer();
-            transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-            transformer.setOutputProperty("{http://xml.apache.org/xslt}indent-amount", "2");
-
-            DOMSource source = new DOMSource(documento);
-            StreamResult result = new StreamResult(new File(RUTA_FICHERO));
-
-            transformer.transform(source, result);
+            UtilidadesXML.domToXml(documento, RUTA_FICHERO);
         } catch (ParserConfigurationException | TransformerException e) {
             e.getMessage();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
 }
